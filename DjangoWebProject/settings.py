@@ -6,27 +6,41 @@ from os import path
 PROJECT_ROOT = path.dirname(path.abspath(path.dirname(__file__)))
 
 DEBUG = True
-TEMPLATE_DEBUG = DEBUG
 
 ALLOWED_HOSTS = (
     'localhost',
+    'mtuci.azurewebsites.net'
 )
 
 ADMINS = (
     # ('Your Name', 'your_email@example.com'),
+    ('Igor Morozov', 'gogamwar@gmail.com'),
 )
 
 MANAGERS = ADMINS
 
 DATABASES = {
+
+    # sqlite3
+    #'default': {
+    #    'ENGINE': 'django.db.backends.sqlite3',
+    #    'NAME': path.join(PROJECT_ROOT, 'db.sqlite3'),
+    #    'USER': '',
+    #    'PASSWORD': '',
+    #    'HOST': '',
+    #    'PORT': '',
+    #}
+
+    # test
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': path.join(PROJECT_ROOT, 'db.sqlite3'),
-        'USER': '',
-        'PASSWORD': '',
-        'HOST': '',
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'acsm_991f4c04f2a279b',
+        'USER': 'b1b810a51247b4',
+        'PASSWORD': '4b925531',
+        'HOST': 'eu-cdbr-azure-north-d.cloudapp.net',
         'PORT': '',
     }
+
 }
 
 LOGIN_URL = '/login'
@@ -38,11 +52,11 @@ LOGIN_URL = '/login'
 # timezone as the operating system.
 # If running in a Windows environment this must be set to the same as your
 # system time zone.
-TIME_ZONE = 'America/Chicago'
+TIME_ZONE = 'Europe/Moscow'
 
 # Language code for this installation. All choices can be found here:
 # http://www.i18nguy.com/unicode/language-identifiers.html
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'ru-ru'
 
 SITE_ID = 1
 
@@ -124,15 +138,16 @@ TEMPLATE_DIRS = (
 )
 
 INSTALLED_APPS = (
+    'jet',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.sites',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'accounts',
     'app',
-    # Uncomment the next line to enable the admin:
-    # 'django.contrib.admin',
+    'django.contrib.admin',
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',
 )
@@ -168,3 +183,27 @@ LOGGING = {
 
 # Specify the default test runner.
 TEST_RUNNER = 'django.test.runner.DiscoverRunner'
+
+TEMPLATES = [
+    {
+        'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        'DIRS': [path.join(PROJECT_ROOT, 'templates')],
+        'APP_DIRS': True,
+        'OPTIONS': {
+            'debug': DEBUG,
+            'context_processors': [
+                'django.template.context_processors.debug',
+                'django.template.context_processors.request',
+                'django.contrib.auth.context_processors.auth',
+                'django.contrib.messages.context_processors.messages',
+            ],
+        },
+    },
+]
+
+AUTH_USER_MODEL = 'accounts.Account'
+
+ADMIN_SITE_HEADER = "МТУСИ"
+
+# Jet-admin
+JET_DEFAULT_THEME = 'light-green'

@@ -2,6 +2,9 @@
 __pycache__/
 *.pyc
 
+# Virtual env.
+/env/
+
 # PTVS analysis
 .ptvs/
 
@@ -13,12 +16,6 @@ __pycache__/
 *.suo
 *.user
 *.sln.docstates
-
-# Auto-generated virtual environment
-/env/
-
-# Auto-generated web.config
-/web.config
 
 # Auto-collected static files folder
 /static/
