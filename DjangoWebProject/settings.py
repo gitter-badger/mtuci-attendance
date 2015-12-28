@@ -22,28 +22,28 @@ MANAGERS = ADMINS
 DATABASES = {
 
     # sqlite3
-    #'default': {
-    #    'ENGINE': 'django.db.backends.sqlite3',
-    #    'NAME': path.join(PROJECT_ROOT, 'db.sqlite3'),
-    #    'USER': '',
-    #    'PASSWORD': '',
-    #    'HOST': '',
-    #    'PORT': '',
-    #}
-
-    # test
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'acsm_991f4c04f2a279b',
-        'USER': 'b1b810a51247b4',
-        'PASSWORD': '4b925531',
-        'HOST': 'eu-cdbr-azure-north-d.cloudapp.net',
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': path.join(PROJECT_ROOT, 'db.sqlite3'),
+        'USER': '',
+        'PASSWORD': '',
+        'HOST': '',
         'PORT': '',
     }
 
+    # Azure test
+    #'default': {
+    #    'ENGINE': 'django.db.backends.mysql',
+    #    'NAME': 'acsm_991f4c04f2a279b',
+    #    'USER': 'b1b810a51247b4',
+    #    'PASSWORD': '4b925531',
+    #    'HOST': 'eu-cdbr-azure-north-d.cloudapp.net',
+    #    'PORT': '',
+    #}
+
 }
 
-LOGIN_URL = '/login'
+LOGIN_URL = '/login/'
 
 # Local time zone for this installation. Choices can be found here:
 # http://en.wikipedia.org/wiki/List_of_tz_zones_by_name
@@ -147,6 +147,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'accounts',
     'app',
+    'attendance',
     'django.contrib.admin',
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',
@@ -201,9 +202,48 @@ TEMPLATES = [
     },
 ]
 
+# Модель пользователя
 AUTH_USER_MODEL = 'accounts.Account'
 
+# Заголовок админки
 ADMIN_SITE_HEADER = "МТУСИ"
 
-# Jet-admin
+# Jet-admin темы
 JET_DEFAULT_THEME = 'light-green'
+JET_THEMES = [
+    {
+        'theme': 'default', # theme folder name
+        'color': '#47bac1', # color of the theme's button in user menu
+        'title': 'Default' # theme title
+    },
+    {
+        'theme': 'violet',
+        'color': '#a464c4',
+        'title': 'Violet'
+    },
+    {
+        'theme': 'green',
+        'color': '#44b78b',
+        'title': 'Green'
+    },
+    {
+        'theme': 'light-green',
+        'color': '#2faa60',
+        'title': 'Light Green'
+    },
+    {
+        'theme': 'light-violet',
+        'color': '#a464c4',
+        'title': 'Light Violet'
+    },
+    {
+        'theme': 'light-blue',
+        'color': '#5EADDE',
+        'title': 'Light Blue'
+    },
+    {
+        'theme': 'light-gray',
+        'color': '#222',
+        'title': 'Light Gray'
+    }
+]
