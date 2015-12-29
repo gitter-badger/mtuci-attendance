@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Доступ заблокирован - МТУСИ</title>
+
+    {% load staticfiles %}
+
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+
+    <!-- Optional theme
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">-->
+
+    <!-- Material Design fonts -->
+    <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Roboto:300,400,500,700" type="text/css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+    <!-- Bootstrap Material Design -->
+    <link href="{% static "css/bootstrap-material-design.min.css" %}" rel="stylesheet">
+    <link href="{% static "css/ripples.min.css" %}" rel="stylesheet">
+
+    <link rel="stylesheet" type="text/css" href="{% static "css/template.css" %}">
+
+</head>
+<body>
+
+    <div class="container">
+        <div class="jumbotron" style="margin-top: 10vh; text-align: center; background: #f44336">
+            <h1 style="color: #FFFFFF;font-family: Roboto Condensed;text-shadow: 0 0 35px rgba(0, 0, 0, 0.5);">Доступ заблокирован</h1>
+            <p style="color: rgba(255, 255, 255, 0.61)">Вы не имеете прав для просмотра данной страницы</p>
+            <i class="material-icons" style="font-size: 35vh; color: rgba(255, 255, 255, 0.31)">lock</i>
+            <p><a href="/" class="btn btn-warning btn-lg" style="color: #FFFFFF">На главную страницу</a></p>
+        </div>
+    </div>
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+
+    <script type="text/javascript" src="{% static "js/material.min.js" %}"></script>
+    <script type="text/javascript" src="{% static "js/ripples.min.js" %}"></script>
+
+    <script type="text/javascript">
+        $.material.init();
+    </script>
+
+</body>
+</html>

@@ -55,7 +55,7 @@ class StudyWeek(models.Model):
     def __str__(self):
         "Возвращает читабельное название недели"
         return str(self.number) + 'ая неделя ' + str(int(self.semester) + 1) + \
-            + 'го семестра 20' + str(self.startStudyYear) + '/20' + \
+            'го семестра 20' + str(self.startStudyYear) + '/20' + \
             str(self.startStudyYear + 1)
 
 

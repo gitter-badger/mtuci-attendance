@@ -7,7 +7,7 @@ class StudyWeekAdmin(admin.ModelAdmin):
     list_display = ('__str__',)
     list_display_links = ('__str__',)
     list_filter = ['startStudyYear', 'semester', 'number']
-    ordering = ['-startStudyYear', '-semester', 'number']
+    ordering = ['-startStudyYear', '-semester', '-number']
 
 
 admin.site.register(StudyWeek, StudyWeekAdmin)

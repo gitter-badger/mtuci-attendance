@@ -13,10 +13,23 @@ admin.site.site_header = settings.ADMIN_SITE_HEADER
 
 admin.autodiscover()
 
+handler400 = 'app.views.error400'
+handler403 = 'app.views.error403'
+#handler404 = 'app.views.error404'
+#handler500 = 'app.views.error500'
 
 urlpatterns = patterns('',
-    # Examples:
-    # url(r'^$', 'app.views.home', name='home'),
+
+    #url(r'^$', 'app.views.index', name='index'),
+    #url(r'^manage/$', 'app.views.manage', name='manage'),
+    #url(r'^steward/$', 'app.views.steward', name='steward'),
+
+    # AJAX
+    url(r'^ajax/create_weeks/$', 'attendance.views.createWeeks'),
+
+    # Аутентификация
+    url(r'^login/$', 'accounts.views.login', name='login'),
+    url(r'^logout/$', 'accounts.views.logout', name='logout'),
 
     # Jet
     url(r'^jet/', include('jet.urls', 'jet')),
