@@ -1,0 +1,62 @@
+{% extends "app/template.html" %}
+{% load staticfiles %}
+{% block title %}Интерфейс старосты{% endblock title %}
+{% block css %}
+  <link rel="stylesheet" href="{% static "css/steward.css" %}">
+  <link rel="stylesheet" href="{% static "css/preloader.css" %}">
+{% endblock css %}
+{% block menu_active %}
+    <li class="active"><a href="javascript:void(0)">Интерфейс старосты</a></li>
+{% endblock menu_active %}
+{% block content %}
+  <div class="wp"><img src="{% static "imgs/wp.jpg" %}"></div>
+  <div class="container main">
+    <div class="group-logo-container">
+      <div class="group-logo-front">
+        <i class="material-icons">group</i>
+      </div>
+
+        {% if no_group %}
+          <div class="group-logo-back error">
+            <span class="group-logo-text">Ошибка</span>
+          </div>
+        {% else %}
+          <div class="group-logo-back">
+            <span class="group-logo-text">{{request.user.universityGroup.name}}</span>
+          </div>
+        {% endif %}
+
+    </div>
+    <div class="page-title">ИНТЕРФЕЙС СТАРОСТЫ</div>
+    {% if no_group %}
+      <div class="start-load-data-error">Не удалось получить группу</div>
+    {% else %}
+      {% if not_study_time %}
+        <div class="start-load-data-error">Неучебное время</div>
+      {% else %}
+        {% if weeks and active_week %}
+          <h1 class="semester"{% if start_study_year and semester %} data-semester-number="{{semester}}" data-start-study-year="{{start_study_year}}"{% endif %}>
+            {% if start_study_year and semester %}
+              {{semester}} семестр 20{{start_study_year}}/20{{next_study_year}} учебного года
+            {% else %}
+              Недели
+            {% endif %}
+          </h1>
+          <ul class="weeks-numbers">
+            {% for week in weeks %}
+              <li class="week{% if week == active_week %} active{% endif %}" data-week-number="{{week}}">{{week}}</li>
+            {% endfor %}
+          </ul>
+          <div class="group-display">
+            
+          </div>
+        {% else %}
+          <div class="start-load-data-error">Не удалось получить расписание</div>
+        {% endif %}
+      {% endif %}
+    {% endif %}
+  </div>
+{% endblock content %}
+{% block js %}
+  <script type="text/javascript" src="{% static "js/steward.js" %}"></script>
+{% endblock js %}

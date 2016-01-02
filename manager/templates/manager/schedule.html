@@ -1,0 +1,213 @@
+{% extends "manager/template.html" %}
+{% load staticfiles %}
+{% block title %}Расписание{% endblock title %}
+{% block css %}
+  <link rel="stylesheet" href="{% static "css/schedule.css" %}">
+  <link rel="stylesheet" href="{% static "css/nouislider.css" %}">
+{% endblock css %}
+
+{% block menu %}
+  <li><a class="away waves-effect" href="{% url "manage:main" %}">Главная</a></li>
+  <li class="teal"><a class="waves-effect away teal-text text-lighten-5 waves-light" href="{% url "manage:schedule" %}">Расписание</a></li>
+{% endblock menu %}
+
+{% block page_title %}Расписание{% endblock page_title %}
+
+{% block content %}
+  <div class="row">
+    <div class="col s12">
+      <div class="card medium schedule-manage">
+        <div class="card-preloader center-align valign-wrapper grey lighten-4">
+          <div class="preloader-wrapper big active valign">
+            <div class="spinner-layer spinner-green-only">
+              <div class="circle-clipper left">
+                <div class="circle"></div>
+              </div><div class="gap-patch">
+                <div class="circle"></div>
+              </div><div class="circle-clipper right">
+                <div class="circle"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="card-image waves-effect waves-block waves-light">
+          <img src="{% static "imgs/schedule.jpg" %}">
+        </div>
+        <div class="card-content activator">
+          <span class="card-title grey-text text-darken-4 activator">Управление расписанием<i class="material-icons right">more_vert</i></span>
+          <p class="activator">Нажмите, чтобы добавить или удалить недели</p>
+        </div>
+        <div class="card-reveal">
+          <span class="card-title grey-text text-darken-4">Недели<i class="material-icons right">close</i></span>
+          <div class="row">
+            <div class="col s12">
+              <ul class="weeks-add tabs">
+                  <li class="tab col s4"><a class="teal-text" href="#weeks-add">Добавить</a></li>
+                  <li class="tab col s4"><a class="teal-text" href="#weeks-delete">Удалить</a></li>
+              </ul>
+            </div>
+            <div id="weeks-add" class="col s12">
+              <div class="row" style="margin-top: 50px">
+                <div class="input-field col s6">
+                  <span class="prefix" style="font-size: 20px;top: 7px;left: 25px">20</span>
+                  <input id="start-study-year-add" type="number" min="15" max="35" class="validate"{% if start_study_year %}  value="{{start_study_year}}"{% endif %}>
+                  <label for="start-study-yea-addr">Год начала учебного года</label>
+                </div>
+                <div class="input-field col s6">
+                  <select class="semester-add">
+                    <option value="" disabled>Выберите номер семестра</option>
+                    <option value="0"{% if not semester %} selected{% endif %}>Первый</option>
+                    <option value="1"{% if semester %} selected{% endif %}>Второй</option>
+                  </select>
+                  <label>Семестр</label>
+                </div>
+              </div>
+              <h5>По начальной и конечной неделе</h5>
+              <div class="row add-weeks-by-start-end">
+                <div class="col s4 m3 left-align">
+                  <input value="2" id="start-week-input" type="number" class="validate">
+                  <label class="active" for="start-week-input">Начальная неделя</label>
+                </div>
+                <div class="col s4 m3 offset-s4 offset-m6 right-align">
+                  <input value="18" id="end-week-input" type="number" class="validate">
+                  <label class="active" for="end-week-input">Конечная неделя</label>
+                </div>
+                <div class="col s12" style="height: 30px">
+                  <div id="weeks-start-end-slider"></div>
+                </div>
+                <div class="left-align col s4">
+                  <label class="active" for="step-week-input">Шаг</label>
+                  <input value="1" id="step-week-input" type="number" class="validate">
+                </div>
+                <div class="right-align col s8" style="margin-top: 30px">
+                  <button class="btn waves-effect waves-light" type="submit">Создать
+                    <i class="material-icons right">send</i>
+                  </button>
+                </div>
+              </div>
+              <h5>По номерам недель</h5>
+              <div class="row add-weeks-by-numbers">
+                <div class="col s3 center-align">
+                  <input data-week-number="1" type="checkbox" id="week1" />
+                  <label for="week1">1</label><br/>
+                  <input data-week-number="2" type="checkbox" id="week2" />
+                  <label for="week2">2</label><br/>
+                  <input data-week-number="3" type="checkbox" id="week3" />
+                  <label for="week3">3</label><br/>
+                  <input data-week-number="4" type="checkbox" id="week4" />
+                  <label for="week4">4</label><br/>
+                  <input data-week-number="5" type="checkbox" id="week5" />
+                  <label for="week5">5</label><br/>
+                  <input data-week-number="6" type="checkbox" id="week6" />
+                  <label for="week6">6</label><br/>
+                </div>
+                <div class="col s3 center-align">
+                  <input data-week-number="7" type="checkbox" id="week7" />
+                  <label for="week7">7</label><br/>
+                  <input data-week-number="8" type="checkbox" id="week8" />
+                  <label for="week8">8</label><br/>
+                  <input data-week-number="9" type="checkbox" id="week9" />
+                  <label for="week9">9</label><br/>
+                  <input data-week-number="10" type="checkbox" id="week10" />
+                  <label for="week10">10</label><br/>
+                  <input data-week-number="11" type="checkbox" id="week11" />
+                  <label for="week11">11</label><br/>
+                  <input data-week-number="12" type="checkbox" id="week12" />
+                  <label for="week12">12</label><br/>
+                </div>
+                <div class="col s3 center-align">
+                  <input data-week-number="13" type="checkbox" id="week13" />
+                  <label for="week13">13</label><br/>
+                  <input data-week-number="14" type="checkbox" id="week14" />
+                  <label for="week14">14</label><br/>
+                  <input data-week-number="15" type="checkbox" id="week15" />
+                  <label for="week15">15</label><br/>
+                  <input data-week-number="16" type="checkbox" id="week16" />
+                  <label for="week16">16</label><br/>
+                  <input data-week-number="17" type="checkbox" id="week17" />
+                  <label for="week17">17</label><br/>
+                  <input data-week-number="18" type="checkbox" id="week18" />
+                  <label for="week18">18</label><br/>
+                </div>
+                <div class="col s3 center-align">
+                  <input data-week-number="19" type="checkbox" id="week19" />
+                  <label for="week19">19</label><br/>
+                  <input data-week-number="20" type="checkbox" id="week20" />
+                  <label for="week20">20</label><br/>
+                  <input data-week-number="21" type="checkbox" id="week21" />
+                  <label for="week21">21</label><br/>
+                  <input data-week-number="22" type="checkbox" id="week22" />
+                  <label for="week22">22</label><br/>
+                  <input data-week-number="23" type="checkbox" id="week23" />
+                  <label for="week23">23</label><br/>
+                  <input data-week-number="24" type="checkbox" id="week24" />
+                  <label for="week24">24</label><br/>
+                </div>
+                <div class="right-align col s12" style="margin-top: 30px">
+                  <button class="btn waves-effect waves-light" type="submit">Создать
+                    <i class="material-icons right">send</i>
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div id="weeks-delete" class="col s12">
+              <div class="row" style="margin-top: 50px">
+                <div class="input-field col s6">
+                  <span class="prefix" style="font-size: 20px;top: 7px;left: 25px">20</span>
+                  <input id="start-study-year-delete" type="number" min="15" max="35" class="validate"{% if start_study_year %}  value="{{start_study_year}}"{% endif %}>
+                  <label for="start-study-year-delete">Год начала учебного года</label>
+                </div>
+                <div class="input-field col s6">
+                  <select class="semester-delete">
+                    <option value="" disabled>Выберите номер семестра</option>
+                    <option value="0"{% if not semester %} selected{% endif %}>Первый</option>
+                    <option value="1"{% if semester %} selected{% endif %}>Второй</option>
+                  </select>
+                  <label>Семестр</label>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col s4">
+                  <h5>Недели</h5>
+                </div>
+                <div class="col s8 right-align">
+                  <a class="waves-effect waves-light btn red lighten-2 delete-weeks" style="padding-left: 60px;">
+                    <i class="material-icons" style="position: absolute;left: 30px">delete</i>
+                    Удалить выбранные<span class="badge">0</span>
+                  </a>
+                </div>
+                <div class="col s12 weeks-to-delete"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--MODALS-->
+  <div class="modal simple">
+    <div class="modal-content">
+      <h4></h4>
+      <p></p>
+    </div>
+    <div class="modal-footer">
+      <a href="#!" class=" modal-action modal-close waves-effect waves-green btn-flat">ОК</a>
+    </div>
+  </div>
+  <div class="modal disagree">
+    <div class="modal-content">
+      <h4></h4>
+      <p></p>
+    </div>
+    <div class="modal-footer">
+      <a href="#!" class="agree modal-action modal-close waves-effect waves-green btn-flat">ОК</a>
+      <a href="#!" class="disagree modal-action modal-close waves-effect waves-red btn-flat">Отмена</a>
+    </div>
+  </div>
+  <!--END MODALS-->
+{% endblock content %}
+
+{% block js %}
+  <script type="text/javascript" src="{% static "js/nouislider.min.js" %}"></script>
+  <script type="text/javascript" src="{% static "js/schedule.js" %}"></script>
+{% endblock js %}

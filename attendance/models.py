@@ -97,4 +97,4 @@ class Attendance(models.Model):
     updated_at = models.DateTimeField('Обновлен', auto_now=True)
 
     def __str__(self):
-        return student.__str() + ' | ' + studyWeek.__str__()
+        return self.student.__str__() + ' -- ' + self.studyWeek.__str__()

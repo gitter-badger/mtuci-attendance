@@ -30,8 +30,6 @@ class AccountManager(BaseUserManager):
 class Account(AbstractBaseUser):
     ''' Кастомная модель пользователя, наследуемая от абстрактной стандартной '''
     class Meta:
-        # Каждой группе соответствует один староста
-        unique_together = ('is_steward', 'universityGroup')
         get_latest_by = 'created_at'
         ordering = ['-created_at']
         verbose_name = 'пользователь'
@@ -116,16 +114,16 @@ class UniversityGroup(models.Model):
         verbose_name_plural = 'группы студентов'
 
     # Название группы
-    name = models.CharField('Название',
+    name = models.CharField('Название группы',
                             max_length=15,
                             unique=True,
                             blank=True,
                             null=False,
                             default='')
     # Когда группа была создана
-    created_at = models.DateTimeField('Создан', auto_now_add=True)
+    created_at = models.DateTimeField('Создана', auto_now_add=True)
     # Когда группа последний раз редактировалась
-    updated_at = models.DateTimeField('Обновлен', auto_now=True)
+    updated_at = models.DateTimeField('Обновлена', auto_now=True)
 
     def __str__(self):
         return self.name

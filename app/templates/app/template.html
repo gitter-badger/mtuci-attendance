@@ -9,105 +9,7 @@
     {% load staticfiles %}
 
     <!-- Preloader -->
-    <style type="text/css">
-      .preloader {
-        background: whitesmoke;
-        width: 100vw;
-        height: 100vh;
-        text-align: center;
-        padding-top: calc(50vh - 37.5px);
-        z-index: 9999;
-        position: fixed;
-        top: 0;
-        left: 0;
-      }
-      body {
-        overflow-x: hidden;
-      }
-      .md-preloader {
-        font-size:0;
-        display:inline-block;
-        -webkit-animation:outer 6600ms linear infinite;
-                animation:outer 6600ms linear infinite;
-      }
-      .md-preloader svg {
-        -webkit-animation:inner 1320ms linear infinite;
-                animation:inner 1320ms linear infinite;
-      }
-      .md-preloader svg circle {
-        fill:none;
-        stroke:#009688;
-        stroke-linecap:square;
-        -webkit-animation:arc 1320ms cubic-bezier(.8, 0, .4, .8) infinite;
-                animation:arc 1320ms cubic-bezier(.8, 0, .4, .8) infinite}
-      @-webkit-keyframes outer {
-          0%{
-              -webkit-transform:rotate(0);
-                      transform:rotate(0)
-          }
-          100%{
-              -webkit-transform:rotate(360deg);
-                      transform:rotate(360deg)
-              }
-      }
-      @keyframes outer {
-          0%{
-              -webkit-transform:rotate(0);
-                      transform:rotate(0)
-              }
-          100%{
-              -webkit-transform:rotate(360deg);
-                      transform:rotate(360deg)
-              }
-      }
-      @-webkit-keyframes inner {
-          0%{
-              -webkit-transform:rotate(-100.8deg);
-                      transform:rotate(-100.8deg)
-          }
-          100%{
-              -webkit-transform:rotate(0);
-                      transform:rotate(0)
-          }
-      }
-      @keyframes inner {
-          0%{
-              -webkit-transform:rotate(-100.8deg);
-                      transform:rotate(-100.8deg)
-          }
-          100%{
-              -webkit-transform:rotate(0);
-                      transform:rotate(0)}
-          }
-      @-webkit-keyframes arc {
-          0%{
-              stroke-dasharray:1 210.48670779px;
-              stroke-dashoffset:0
-          }
-          40%{
-              stroke-dasharray:151.55042961px,210.48670779px;
-              stroke-dashoffset:0
-          }
-          100%{
-              stroke-dasharray:1 210.48670779px;
-              stroke-dashoffset:-151.55042961px
-          }
-      }
-      @keyframes arc {
-          0%{
-              stroke-dasharray:1 210.48670779px;
-              stroke-dashoffset:0
-          }
-          40%{
-              stroke-dasharray:151.55042961px,210.48670779px;
-              stroke-dashoffset:0
-          }
-          100%{
-              stroke-dasharray:1 210.48670779px;
-              stroke-dashoffset:-151.55042961px
-          }
-      }
-    </style>
+    <link rel="stylesheet" href="{% static "css/preloader.css" %}">
 
     <link rel="apple-touch-icon" sizes="57x57" href="{% static "icons/apple-icon-57x57.png" %}">
     <link rel="apple-touch-icon" sizes="60x60" href="{% static "icons/apple-icon-60x60.png" %}">
@@ -128,8 +30,6 @@
     <meta name="theme-color" content="#009688">
 
 
-
-
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
 
@@ -144,9 +44,9 @@
 
     <link rel="stylesheet" type="text/css" href="{% static "css/offline-theme-slide-indicator.css" %}" charset="utf-8">
 
-    <link rel="stylesheet" type="text/css" href="{% static "css/template.css" %}" charset="utf-8">
-
     <link rel="stylesheet" href="{% static "css/outdatedbrowser.min.css" %}" charset="utf-8">
+
+    <link rel="stylesheet" type="text/css" href="{% static "css/template.css" %}" charset="utf-8">
 
     {% block css %}
 
@@ -157,7 +57,7 @@
 
     <noscript>
         <div class="no_js container">
-            <h1>Для работы необходимо <a href="http://www.enable-javascript.com/ru/"> включить JavaScript</a>.</h1>
+          <h1>Для работы необходимо <a href="http://www.enable-javascript.com/ru/"> включить JavaScript</a>.</h1>
         </div>
     </noscript>
 
@@ -168,8 +68,8 @@
     <div id="outdated">
      <h6>Ваш браузер устарел!</h6>
      <p>
-       Обновите ваш браузер для правильного отображения этого сайта.
-       <a id="btnUpdateBrowser" href="http://outdatedbrowser.com/">Обновить браузер </a>
+        Обновите ваш браузер для правильного отображения этого сайта.
+        <a id="btnUpdateBrowser" href="http://outdatedbrowser.com/">Обновить браузер </a>
      </p>
      <p class="last"><a href="#" id="btnCloseUpdateBrowser" title="Закрыть">&times;</a></p>
     </div>
@@ -202,7 +102,7 @@
             <ul class="nav navbar-nav navbar-right">
             {% if request.user.is_authenticated %}
                 <li class="dropdown">
-                  <a href="javascript:void(0)" data-target="#" class="dropdown-toggle account" data-toggle="dropdown"><i class="material-icons">account_circle</i> {{ authUser.account.first_name }} {{ authUser.account.last_name }}
+                  <a href="javascript:void(0)" data-target="#" class="dropdown-toggle account" data-toggle="dropdown"><i class="material-icons">account_circle</i> {{request.user.last_name }} {{ request.user.first_name }}
                     <b class="caret"></b></a>
                   <ul class="dropdown-menu">
                     {% if request.user.is_admin %}
@@ -210,8 +110,12 @@
                         <li><a class="away" href="{% url "admin:index" %}">Панель администратора</a></li>
                     {% endif %}
                     {% if request.user.is_deanery %}
-                        <li class="dropdown-header">Работник</li>
-                        <li><a href="#" class="away">Панель управления</a></li>
+                        <li class="dropdown-header">Деканат</li>
+                        <li><a href="{% url "manage:main" %}" class="away">Панель управления</a></li>
+                    {% endif %}
+                    {% if request.user.is_steward %}
+                        <li class="dropdown-header">Староста</li>
+                        <li><a href="{% url "steward" %}" class="away">Интерфейс старосты</a></li>
                     {% endif %}
                     <li class="divider"></li>
                     <li><a class="away" href="{% url "logout" %}"><span data-content="Выход из системы" data-toggle="snackbar" data-style="toast">Выйти</span></a></li>
@@ -241,11 +145,11 @@
 
     <script type="text/javascript" src="{% static "js/offline.min.js" %}" charset="utf-8"></script>
 
-    <script type="text/javascript" src="{% static "js/template.js" %}" charset="utf-8"></script>
-
     <script type="text/javascript" src="{% static "js/snackbar.js" %}" charset="utf-8"></script>
 
     <script type="text/javascript" src="{% static "js/outdatedbrowser.min.js" %}" charset="utf-8"></script>
+
+    <script type="text/javascript" src="{% static "js/template.js" %}" charset="utf-8"></script>
 
     {% block js %}{% endblock js %}
 

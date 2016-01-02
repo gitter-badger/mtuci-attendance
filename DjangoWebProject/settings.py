@@ -24,23 +24,12 @@ DATABASES = {
     # sqlite3
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': path.join(PROJECT_ROOT, 'db.sqlite3'),
+        'NAME': path.join(PROJECT_ROOT, 'db1.sqlite3'),
         'USER': '',
         'PASSWORD': '',
         'HOST': '',
         'PORT': '',
     }
-
-    # Azure test
-    #'default': {
-    #    'ENGINE': 'django.db.backends.mysql',
-    #    'NAME': 'acsm_991f4c04f2a279b',
-    #    'USER': 'b1b810a51247b4',
-    #    'PASSWORD': '4b925531',
-    #    'HOST': 'eu-cdbr-azure-north-d.cloudapp.net',
-    #    'PORT': '',
-    #}
-
 }
 
 LOGIN_URL = '/login/'
@@ -148,6 +137,7 @@ INSTALLED_APPS = (
     'accounts',
     'app',
     'attendance',
+    'manager',
     'django.contrib.admin',
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',

@@ -1,0 +1,133 @@
+g.ct-series.ct-series-a path {
+  stroke: rgba(255,255,255,0.7);
+  stroke-width: 2px;
+}
+g.ct-series.ct-series-a line.ct-point {
+  stroke: rgba(255,255,255,0);
+  stroke-width: 30px;
+  -webkit-transition: 1s;
+          transition: 1s;
+}
+g.ct-series.ct-series-a line.ct-point:hover {
+  stroke: rgba(255,255,255,.7);
+  stroke-width: 10px;
+}
+div.chart-wrapper {
+  padding: 0 !important;
+  overflow: hidden;
+  position: relative;
+}
+div.chart-wrapper .reload {
+  position: absolute;
+  z-index: 9;
+  right: 30px;
+  top: 20px;
+}
+div.chart-wrapper .reload i {
+  -webkit-transition: 1s;
+          transition: 1s;
+  color: rgba(255,255,255,0.75);
+  cursor: pointer;
+}
+div.chart-wrapper .reload:hover i {
+  color: rgba(255,255,255,1);
+  -webkit-transform: rotateZ(90deg);
+          transform: rotateZ(90deg);
+}
+div.chart-wrapper .chart-desc {
+  color: rgba(255,255,255,0.75);
+  padding: 20px 30px;
+  background: rgba(0, 0, 0, 0.15);
+  font-size: 2.5vh;
+  font-weight: 100;
+  width: 100%;
+  cursor: pointer;
+  -webkit-transition: .5s;
+          transition: .5s;
+}
+div.chart-wrapper .chart-desc i {
+  position: absolute;
+  right: 30px;
+}
+div.chart-wrapper .chart-desc:hover {
+  color: rgba(255,255,255,1);
+}
+div.chart-wrapper .full-chart-desc {
+  background: rgba(0, 0, 0, 0.15);
+  color: rgba(255,255,255,0.75);
+  padding: 0px 30px 0px 30px;
+  font-weight: 200;
+  -webkit-transition: 1s;
+          transition: 1s;
+  max-height: 0;
+  overflow: hidden;
+}
+div.chart-wrapper .full-chart-desc p {
+  margin: 0;
+}
+div.chart-wrapper .full-chart-desc.active {
+  padding-bottom: 20px;
+  max-height: 200px;
+}
+.chartist-tooltip {
+    position: absolute;
+    background: white;
+    text-align: center;
+    padding: 10px 20px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.15);
+}
+.chartist-tooltip::after {
+    border-top: 15px solid white;
+    border-bottom: 0;
+    border-left: 20px solid transparent;
+    border-right: 20px solid transparent;
+    content: '';
+    position: absolute;
+    bottom: -15px;
+    left: 50%;
+    -webkit-transform: translateX(-50%);
+        -ms-transform: translateX(-50%);
+            transform: translateX(-50%);
+    height: 0;
+    width: 0;
+    z-index: 9;
+}
+.chartist-tooltip-meta {
+  font-family: 'Roboto Condensed';
+  font-size: 16px;
+}
+.chartist-tooltip-value {
+  font-weight: 300;
+}
+div.chart-wrapper .chart {
+  width: 100%;
+}
+div.chart-wrapper .default {
+  width: 100%;
+  padding: 20px 50% 0;
+}
+div.chart-wrapper .default p {
+  margin: 0 0 20px 0;
+  font-weight: 300;
+  color: rgba(255,255,255,0.75);
+  transform: translateX(-50%);
+}
+div.chart-wrapper .default p i {
+  float: none;
+  font-size: 35vh;
+  display: block;
+}
+.chart-preloader {
+  width: 100%;
+  padding-left: 50%;
+  cursor: wait;
+}
+.chart-preloader .md-preloader {
+  margin-left: -37.5px;
+}
+.chart-preloader .md-preloader svg {
+  padding: 0;
+}
+.chart-preloader .md-preloader svg circle {
+  stroke: rgba(255,255,255,0.75);
+}

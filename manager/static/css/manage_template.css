@@ -1,0 +1,107 @@
+.no_js {
+    position: fixed;
+    z-index: 99999;
+    background: whitesmoke;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    width: 100vw;
+    text-align: center;
+}
+.no_js h1 {
+    margin-top: 50vh;
+    font-size: 7vh;
+    max-width: 95 vw;
+    -webkit-transform: translateY(-50%);
+            -ms-transform: translateY(-50%);
+        transform: translateY(-50%);
+}
+i.material-icons {
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+}
+::-moz-selection {
+    background: #C9F0DD;
+}
+::selection {
+    background: #C9F0DD;
+}
+a.button-collapse.top-nav {
+  color: white;
+  font-size: 30px;
+}
+header, main, footer {
+  padding-left: 240px;
+}
+@media only screen and (max-width : 992px) {
+  header, main, footer {
+    padding-left: 0;
+  }
+}
+body {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  min-height: 100vh;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -webkit-flex-direction: column;
+      -ms-flex-direction: column;
+          flex-direction: column;
+}
+main {
+  -webkit-box-flex: 1;
+  -webkit-flex: 1 0 auto;
+      -ms-flex: 1 0 auto;
+          flex: 1 0 auto;
+}
+footer.page-footer {
+  margin-top: 150px;
+}
+main header.title {
+  padding: 6vh 0;
+  font-size: 6vh;
+  margin-bottom: 100px;
+}
+ul.side-nav li {
+  -webkit-transition: .5s;
+          transition: .5s;
+}
+ul.side-nav li.account {
+  position: absolute;
+  bottom: 0;
+  -webkit-transform: translateY(-100%);
+      -ms-transform: translateY(-100%);
+          transform: translateY(-100%);
+  width: 100%;
+}
+ul.side-nav li.account ul#dropdown1 a.admin {
+  padding: 10px 20px;
+}
+ul.side-nav li.account ul#dropdown1 a.logout {
+  padding: 20px;
+}
+footer div.powered img {
+  height: 5vh;
+  margin-right: 10px;
+  opacity: .5;
+  -webkit-transition: 1s;
+          transition: 1s;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+  cursor: pointer;
+  margin-bottom: 10px;
+}
+footer div.powered img:hover {
+  opacity: 1;
+}
+li.account a.dropdown-button i {
+  -webkit-transform: translateY(25%);
+      -ms-transform: translateY(25%);
+          transform: translateY(25%);
+}

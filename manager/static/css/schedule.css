@@ -1,0 +1,28 @@
+ul.tabs div.indicator {
+  background: #009688;
+}
+ul.tabs {
+  overflow: hidden;
+}
+div#weeks-start-end-slider div.range-label {
+  cursor: pointer;
+}
+.card .card-preloader {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 9;
+}
+.card .card-preloader .preloader-wrapper {
+  left: calc(50% - 32px);
+}
+a.btn.delete-weeks span.badge {
+  position: static;
+  color: white;
+  background: rgba(0, 0, 0, 0.18);
+  margin-left: 7px;
+  padding: 10px 8px;
+  margin-right: -8px;
+}

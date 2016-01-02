@@ -1,0 +1,49 @@
+{% extends "manager/template.html" %}
+{% load staticfiles %}
+{% block title %}Главная{% endblock title %}
+{% block css %}
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/chartist.js/latest/chartist.min.css">
+  <link rel="stylesheet" href="{% static "css/chartist-plugin-tooltip.css" %}">
+  <link rel="stylesheet" href="{% static "css/draw-chart.css" %}">
+{% endblock css %}
+
+{% block menu %}
+  <li class="teal"><a class="away teal-text text-lighten-5 waves-effect waves-light" href="{% url "manage:main" %}">Главная</a></li>
+  <li><a class="waves-effect away" href="{% url "manage:schedule" %}">Расписание</a></li>
+{% endblock menu %}
+
+{% block page_title %}Главная{% endblock page_title %}
+
+{% block content %}
+  <div class="row">
+    <div class="col s12 l8 chart-wrapper blue z-depth-2">
+      <div class="reload"><i class="material-icons">autorenew</i></div>
+      <div class="waves-effect waves-light chart global-statistics-chart">
+        <div class="default valign-wrapper">
+          <p><i class="material-icons">trending_up</i><br/>Не удалось построить график</p>
+        </div>
+        <div style="display:none" class="chart-preloader valign-wrapper center">
+          <div class="md-preloader"><svg xmlns="http://www.w3.org/2000/svg" version="1.1" height="75" width="75" viewbox="0 0 75 75"><circle cx="37.5" cy="37.5" r="33.5" stroke-width="2"/></svg></div>
+        </div>
+      </div>
+      <div class="chart-desc waves-effect waves-light">
+        Общая статистика посещаемости
+        <i class="material-icons">info</i>
+      </div>
+      <div class="full-chart-desc">
+        <p>Здесь можно увидеть общую тенденцию посещаемости за все время.</p>
+        <p>По горизонтали: время.</p>
+        <p>По вертикали: количество посещенных часов.</p>
+      </div>
+    </div>
+    <div class="col s4">
+    </div>
+  </div>
+{% endblock content %}
+
+{% block js %}
+  <script src="//cdn.jsdelivr.net/chartist.js/latest/chartist.min.js"></script>
+  <script type="text/javascript" src="{% static "js/chartist-plugin-tooltip.min.js" %}"></script>
+  <script type="text/javascript" src="{% static "js/drawchart-plugin.js" %}"></script>
+  <script type="text/javascript" src="{% static "js/manager_main.js" %}"></script>
+{% endblock js %}

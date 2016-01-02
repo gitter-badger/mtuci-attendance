@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}{% endblock title %} - Панель управления | МТУСИ</title>
+  {% load staticfiles %}
+
+  <!-- Preloader -->
+  <link rel="stylesheet" href="{% static "css/preloader.css" %}">
+
+  <link rel="apple-touch-icon" sizes="57x57" href="{% static "icons/apple-icon-57x57.png" %}">
+  <link rel="apple-touch-icon" sizes="60x60" href="{% static "icons/apple-icon-60x60.png" %}">
+  <link rel="apple-touch-icon" sizes="72x72" href="{% static "icons/apple-icon-72x72.png" %}">
+  <link rel="apple-touch-icon" sizes="76x76" href="{% static "icons/apple-icon-76x76.png" %}">
+  <link rel="apple-touch-icon" sizes="114x114" href="{% static "icons/apple-icon-114x114.png" %}">
+  <link rel="apple-touch-icon" sizes="120x120" href="{% static "icons/apple-icon-120x120.png" %}">
+  <link rel="apple-touch-icon" sizes="144x144" href="{% static "icons/apple-icon-144x144.png" %}">
+  <link rel="apple-touch-icon" sizes="152x152" href="{% static "icons/apple-icon-152x152.png" %}">
+  <link rel="apple-touch-icon" sizes="180x180" href="{% static "icons/apple-icon-180x180.png" %}">
+  <link rel="icon" type="image/png" sizes="192x192"  href="{% static "icons/android-icon-192x192.png" %}">
+  <link rel="icon" type="image/png" sizes="32x32" href="{% static "icons/favicon-32x32.png" %}">
+  <link rel="icon" type="image/png" sizes="96x96" href="{% static "icons/favicon-96x96.png" %}">
+  <link rel="icon" type="image/png" sizes="16x16" href="{% static "icons/favicon-16x16.png" %}">
+  <link rel="manifest" href="{% static "icons/manifest.json" %}">
+  <meta name="msapplication-TileColor" content="#009688">
+  <meta name="msapplication-TileImage" content="{% static "icons/ms-icon-144x144.png" %}">
+  <meta name="theme-color" content="#009688">
+
+  <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/css/materialize.min.css">
+
+  <link rel="stylesheet" href="{% static "css/outdatedbrowser.min.css" %}" charset="utf-8">
+
+  <link rel="stylesheet" href="{% static "css/manage_template.css" %}">
+  {% block css %}{% endblock css %}
+
+</head>
+<body>
+  <noscript>
+      <div class="no_js container">
+        <h1>Для работы необходимо <a href="http://www.enable-javascript.com/ru/"> включить JavaScript</a>.</h1>
+      </div>
+  </noscript>
+  <div class="preloader">
+      <div class="md-preloader"><svg xmlns="http://www.w3.org/2000/svg" version="1.1" height="75" width="75" viewbox="0 0 75 75"><circle cx="37.5" cy="37.5" r="33.5" stroke-width="8"/></svg></div>
+  </div>
+  <div id="outdated">
+   <h6>Ваш браузер устарел!</h6>
+   <p>
+      Обновите ваш браузер для правильного отображения этого сайта.
+      <a id="btnUpdateBrowser" href="http://outdatedbrowser.com/">Обновить браузер </a>
+   </p>
+   <p class="last"><a href="#" id="btnCloseUpdateBrowser" title="Закрыть">&times;</a></p>
+  </div>
+
+  <header>
+    <nav class="top-nav teal hide-on-large-only">
+      <div class="container">
+        <a href="#" data-activates="slide-out" class="button-collapse top-nav full hide-on-large-only"><i class="mdi-navigation-menu"></i></a>
+        <div class="nav-wrapper">
+          <a href="/" class="brand-logo center away">МТУСИ</a>
+        </div>
+      </div>
+    </nav>
+    <ul id="slide-out" class="side-nav fixed">
+      {% block menu %}{% endblock menu %}
+      <li class="account">
+       <a class='dropdown-button' href='#' data-activates='dropdown1'><i class="material-icons">account_circle</i> {{request.user.last_name}} {{request.user.first_name}}</a>
+       <ul id='dropdown1' class='dropdown-content'>
+         <li><a class="admin away" href="{% url "admin:index" %}">Панель администратора</a></li>
+         <li class="divider"></li>
+         <li><a class="logout away" href="{% url "logout" %}">Выйти</a></li>
+       </ul>
+      </li>
+    </ul>
+  </header>
+
+  <main>
+    <header class="teal teal-text text-lighten-5 title">
+      <div class="container">
+        {% block page_title %}{% endblock page_title %}
+      </div>
+    </header>
+    <div class="content container">
+
+      {% block content %}
+      {% endblock content %}
+
+    </div>
+  </main>
+
+  <footer class="page-footer teal">
+    <div class="container">
+      <div class="row">
+        <div class="col l6 s12">
+          <h5 class="white-text">Панель управления</h5>
+          <p class="grey-text text-lighten-4">Данная страница предназначена для управления сайтом и просмотра статистики</p>
+        </div>
+        <div class="col l4 offset-l2 s12">
+          <h5 class="white-text">Ссылки</h5>
+          <ul>
+            <li><a class="away grey-text text-lighten-3" href="/">Главная</a></li>
+            <li><a class="away grey-text text-lighten-3" href="#!">Посещаемость</a></li>
+            <li><a class="away grey-text text-lighten-3" href="{% url "admin:index" %}">Панель администратора</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col s12 powered">
+          <h5 class="white-text">Powered by</h5>
+          <a target="_blank" href="https://www.djangoproject.com/"><img src="{% static "imgs/django-white.svg" %}" alt="Django" /></a>
+          <a target="_blank" href="https://atom.io/"><img src="{% static "imgs/atom-white.svg" %}" alt="Atom" /></a>
+          <a target="_blank" href="http://getbootstrap.com/"><img src="{% static "imgs/bootstrap-white.svg" %}" alt="Bootstrap" /></a>
+          <a target="_blank" href="http://www.w3.org/TR/2001/WD-css3-roadmap-20010523/"><img src="{% static "imgs/css-3-white.svg" %}" alt="CSS3" /></a>
+          <a target="_blank" href="http://www.w3.org/TR/html5/"><img src="{% static "imgs/html-5-white.svg" %}" alt="HTML5" /></a>
+          <a target="_blank" href="https://git-scm.com/"><img src="{% static "imgs/git-icon-white.svg" %}" alt="Git" /></a>
+          <a target="_blank" href="https://jquery.com/"><img src="{% static "imgs/jquery-white.svg" %}" alt="JQuery" /></a>
+          <a target="_blank" href="https://azure.microsoft.com/"><img src="{% static "imgs/microsoft-windows-white.svg" %}" alt="Azure" /></a>
+          <a target="_blank" href="https://www.mysql.com/"><img src="{% static "imgs/mysql-white.svg" %}" alt="MySQL" /></a>
+          <a target="_blank" href="https://www.python.org/"><img src="{% static "imgs/python-white.svg" %}" alt="Python" /></a>
+          <a target="_blank" href="http://materializecss.com/"><img src="{% static "imgs/materialize-white.png" %}" alt="Materialize" /></a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-copyright">
+      <div class="container">
+        <a class="grey-text text-lighten-3" href="mailto:gogamwar@gmail.com">Нашли ошибку?</a>
+        <a class="grey-text text-lighten-4 right" href="http://mtuci.ru/">Сайт МТУСИ</a>
+      </div>
+    </div>
+  </footer>
+
+  <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/js/materialize.min.js"></script>
+  <script type="text/javascript" src="{% static "js/outdatedbrowser.min.js" %}" charset="utf-8"></script>
+  <script type="text/javascript" src="{% static "js/manage_template.js" %}"></script>
+  {% block js %}{% endblock js %}
+</body>
+</html>
