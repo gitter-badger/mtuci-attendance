@@ -34,22 +34,27 @@ class Account(AbstractBaseUser):
         ordering = ['-created_at']
         verbose_name = 'пользователь'
         verbose_name_plural = 'пользователи'
+        # В комбинированном индексе пока необходимости нет.
+        # Полнотекстовый индекс создаётся непосредственно в базе
+        # index_together = []
 
     # Имя пользователя
     username = models.CharField('Логин',
                                 max_length=40,
-                                unique=True)
+                                unique=True,
+                                db_index=True)
     # Группа студента
     universityGroup = models.ForeignKey('UniversityGroup',
                                         verbose_name = 'Группа студента',
                                         blank=True,
-                                        null=True)
+                                        null=True,
+                                        db_index=True)
     # Имя
-    first_name = models.CharField('Имя', max_length=40, blank=True, default='')
+    first_name = models.CharField('Имя', max_length=40, blank=True, default='', db_index=True)
     # Фамилия
-    last_name = models.CharField('Фамилия', max_length=40, blank=True, default='')
+    last_name = models.CharField('Фамилия', max_length=40, blank=True, default='', db_index=True)
     # Отчество
-    patronymic = models.CharField('Отчество', max_length=40, blank=True, default='')
+    patronymic = models.CharField('Отчество', max_length=40, blank=True, default='', db_index=True)
     # Активен?
     is_active = models.BooleanField('Активен?', default=True)
     # Является ли админом

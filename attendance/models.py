@@ -9,9 +9,13 @@ class StudyWeek(models.Model):
         # неделя с определенным номером
         unique_together = ('startStudyYear', 'number', 'semester')
         get_latest_by = 'created_at'
-        ordering = ['startStudyYear', 'number']
+        ordering = ['startStudyYear', 'semester', 'number']
         verbose_name = 'учебная неделя'
         verbose_name_plural = 'учебные недели'
+        index_together = [
+            ['startStudyYear', 'semester'],
+            ['startStudyYear', 'semester', 'number']
+        ]
 
     # Номер календарного года, с которого начался учебный год. (состоит из двух цифр)
     startStudyYear = models.PositiveSmallIntegerField('Год начала учебного года',
@@ -19,6 +23,7 @@ class StudyWeek(models.Model):
                                                       null=False,
                                                       blank=False,
                                                       default=now().year % 100,
+                                                      db_index=True,
                                                       validators=[
                                                         MinValueValidator(10,
                                                             message='Минимальное значение 10'),
@@ -45,6 +50,7 @@ class StudyWeek(models.Model):
                                    blank=False,
                                    null=False,
                                    default=False,
+                                   db_index=True,
                                    choices=SEMESTER_CHOICES,
                                    help_text='Номер семестра в учебном году, не в календарном')
     # Когда неделя была создана
@@ -68,17 +74,20 @@ class Attendance(models.Model):
         ordering = ['-studyWeek', '-created_at']
         verbose_name = 'посещение'
         verbose_name_plural = 'посещения'
+        index_together = ['studyWeek', 'student']
     # Кто
     student = models.ForeignKey('accounts.Account',
                                 verbose_name = 'Студент',
                                 blank=True,
                                 null=True,
+                                db_index=True,
                                 help_text='Студент, который посещал занятия')
     # Когда
     studyWeek = models.ForeignKey('StudyWeek',
                                   verbose_name = 'Неделя',
                                   blank=True,
                                   null=True,
+                                  db_index=True,
                                   help_text='Учебная неделя, для которой указывается посещение')
     # Сколько часов
     numberOfHours = models.PositiveSmallIntegerField('Количество часов',

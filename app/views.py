@@ -57,7 +57,7 @@ def steward(request):
         startStudyYear = (today.year - 1) % 100
         nowWeek = today.isocalendar()[1] - datetime.date(today.year, 2, 8).isocalendar()[1] + 1
     # Получаем номера всех недель из данного семестра
-    weeks = [week.number for week in StudyWeek.objects.filter(startStudyYear=startStudyYear, semester=semester)]
+    weeks = [sw['number'] for sw in StudyWeek.objects.filter(startStudyYear=startStudyYear, semester=semester).values('number')]
     # Находим ближайшую неделю к текущей
     activeWeek = 0
     for week in weeks:

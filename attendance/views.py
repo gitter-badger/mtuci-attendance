@@ -40,6 +40,7 @@ def generateSchedule(weeksNumbersList, semester, startStudyYear):
        not startStudyYear or not weeksNumbersList or \
        startStudyYear < 10 or startStudyYear > 35:
        return None
+    # Ниже ручной перебор, т.к. в bulk нет смысла
     # Счётчик созданных объектов
     weeksCount = 0
     for week in weeksNumbersList:
@@ -136,13 +137,13 @@ def getWeekGroupAttendance(request):
         number = int(request.GET.get('number'))
     except:
         return HttpResponseBadRequest()
-    universityGroupId = request.user.universityGroup.id
+    universityGroupId = request.user.universityGroup_id
     if not number or not startStudyYear or not universityGroupId:
         return HttpResponseBadRequest()
     # Список, который будет преобразован в json и возвращен
     resp = {}
     # группа
-    students = Account.objects.filter(universityGroup__id=request.user.universityGroup.id)
+    students = Account.objects.filter(universityGroup__id=universityGroupId)
     # посещения
     attendance = []
     # сколько объектов было создано
@@ -255,10 +256,13 @@ def getWeekTotalHours(week):
 @login_required
 def getGlobalStatistics(request):
     # Проверка, что запрос через ajax
-    #if not request.is_ajax():
-    #    raise PermissionDenied
+    if not request.is_ajax():
+        raise PermissionDenied
     resp = {'labels': [], 'series': [[]]}
-    allWeeks = StudyWeek.objects.order_by('startStudyYear', 'semester', 'number')
+    # allWeeks = StudyWeek.objects.order_by('startStudyYear', 'semester', 'number')
+    # Не сортируем, т.к. в модели задана сортировка по умолчанию
+    allWeeks = StudyWeek.objects.all()
+
     for week in allWeeks:
         resp['labels'].append(getSortingStrForStudyWeek(week))
         resp['series'][0].append({

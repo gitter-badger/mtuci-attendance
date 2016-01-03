@@ -30,6 +30,17 @@ DATABASES = {
         'HOST': '',
         'PORT': '',
     }
+
+    # mtuci in Azure
+    # Database=mtuci;Data Source=eu-cdbr-azure-west-c.cloudapp.net;User Id=bb2900572a202f;Password=1577d104
+    #'default': {
+    #    'ENGINE': 'django.db.backends.mysql',
+    #    'NAME': 'mtuci',
+    #    'USER': 'bb2900572a202f',
+    #    'PASSWORD': '1577d104',
+    #    'HOST': 'eu-cdbr-azure-west-c.cloudapp.net',
+    #    'PORT': '',
+    #}
 }
 
 LOGIN_URL = '/login/'
