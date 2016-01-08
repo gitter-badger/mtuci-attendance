@@ -94,9 +94,9 @@
   <h1>MTUCI Attendance Index</h1>
   <h4>Links:</h4>
   <ul>
-    <li><strong>Attendance: </strong>{% url "attendance" %}</li>
-    <li><strong>Steward: </strong>{% url "steward" %}</li>
-    <li><strong>Manage: </strong>{% url "manage:main" %}</li>
+    <li><a href="{% url "attendance" %}">Attendance</a></li>
+    <li><a href="{% url "steward" %}">Steward</a></li>
+    <li><a href="{% url "manage:main" %}">Manage</a></li>
   </ul>
   <h4>Config:</h4>
   <ul>
@@ -105,5 +105,10 @@
     <li><strong>Caching:</strong> locmem.LocMemCache</li>
     <li><strong>DB:</strong> MySQL ClearDB</li>
   </ul>
+  <br>
+  <br>
+  <p>
+    Скоро здесь тоже что-нибудь будет :)
+  </p>
 </body>
 </html>
