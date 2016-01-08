@@ -213,16 +213,16 @@ TEMPLATES = [
 # БД кэш даже не рассматривается, 20 Мб даёт ClearDB :(
 CACHES = {
     # В файловой системе - медленный и кушает ограниченное место на Azure
-    'default': {
-        'BACKEND': 'django.core.cache.backends.filebased.FileBasedCache',
-        'LOCATION': path.join(PROJECT_ROOT, 'cache'),
-        'TIMEOUT': 60 * 30,
-    }
-    # Кэш в оперативе - конфетка
     #'default': {
-    #    'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
-    #    'LOCATION': 'unique-snowflake'
+    #    'BACKEND': 'django.core.cache.backends.filebased.FileBasedCache',
+    #    'LOCATION': path.join(PROJECT_ROOT, 'cache'),
+    #    'TIMEOUT': 60 * 30,
     #}
+    # Кэш в оперативе - конфетка
+    'default': {
+        'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
+        'LOCATION': 'unique-snowflake'
+    }
 }
 
 # Модель пользователя

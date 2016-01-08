@@ -496,34 +496,38 @@ def getStatistics(request, target):
                                     'value': None})
                     return JsonResponse(resp)
                 elif period == 'general':
-                    groupAttendance = Attendance.objects.filter(student__universityGroup=group)
-                    # Записываем в нужном формате нулевые элементы
-                    weeksNumbers = [str(groupAttendance[0].studyWeek.startStudyYear)+\
-                                    str(int(groupAttendance[0].studyWeek.semester))+\
-                                    str(groupAttendance[0].studyWeek.number)]
-                    weeksCounters = [{'meta': str(int(groupAttendance[0].studyWeek.semester)+1)+\
-                                              ' семестр 20'+str(groupAttendance[0].studyWeek.startStudyYear)+\
-                                              '/20'+str(groupAttendance[0].studyWeek.startStudyYear+1),
-                                      'value': groupAttendance[0].numberOfHours}]
-                    # Сравниваем все остальные с предыдущим
-                    for i in range(1,len(groupAttendance)):
-                        # Если неделя рассматриваемого посещения та же, что и последняя,
-                        # то просто приплюсовываем количество часов
-                        if str(groupAttendance[i].studyWeek.startStudyYear)+\
-                           str(int(groupAttendance[i].studyWeek.semester))+\
-                           str(groupAttendance[i].studyWeek.number) == weeksNumbers[-1]:
-                           weeksCounters[-1]['value'] += groupAttendance[i].numberOfHours
-                        else:
-                            # Иначе создаём новую запись
-                            weeksNumbers.append(str(groupAttendance[i].studyWeek.startStudyYear)+\
-                                                str(int(groupAttendance[i].studyWeek.semester))+\
-                                                str(groupAttendance[i].studyWeek.number))
-                            weeksCounters.append({'meta': str(int(groupAttendance[i].studyWeek.semester)+1)+\
-                                                          ' семестр 20'+str(groupAttendance[i].studyWeek.startStudyYear)+\
-                                                          '/20'+str(groupAttendance[i].studyWeek.startStudyYear+1),
-                                                  'value': groupAttendance[i].numberOfHours})
-                    resp = {'labels':weeksNumbers, 'series': [weeksCounters]}
-                    return JsonResponse(resp)
+                    if cache.get('get_statistics_group_general_'+str(groupId)):
+                        return JsonResponse(cache.get('get_statistics_group_general_'+str(groupId)))
+                    else:
+                        groupAttendance = Attendance.objects.filter(student__universityGroup=group)
+                        # Записываем в нужном формате нулевые элементы
+                        weeksNumbers = [str(groupAttendance[0].studyWeek.startStudyYear)+\
+                                        str(int(groupAttendance[0].studyWeek.semester))+\
+                                        str(groupAttendance[0].studyWeek.number)]
+                        weeksCounters = [{'meta': str(int(groupAttendance[0].studyWeek.semester)+1)+\
+                                                  ' семестр 20'+str(groupAttendance[0].studyWeek.startStudyYear)+\
+                                                  '/20'+str(groupAttendance[0].studyWeek.startStudyYear+1),
+                                          'value': groupAttendance[0].numberOfHours}]
+                        # Сравниваем все остальные с предыдущим
+                        for i in range(1,len(groupAttendance)):
+                            # Если неделя рассматриваемого посещения та же, что и последняя,
+                            # то просто приплюсовываем количество часов
+                            if str(groupAttendance[i].studyWeek.startStudyYear)+\
+                               str(int(groupAttendance[i].studyWeek.semester))+\
+                               str(groupAttendance[i].studyWeek.number) == weeksNumbers[-1]:
+                               weeksCounters[-1]['value'] += groupAttendance[i].numberOfHours
+                            else:
+                                # Иначе создаём новую запись
+                                weeksNumbers.append(str(groupAttendance[i].studyWeek.startStudyYear)+\
+                                                    str(int(groupAttendance[i].studyWeek.semester))+\
+                                                    str(groupAttendance[i].studyWeek.number))
+                                weeksCounters.append({'meta': str(int(groupAttendance[i].studyWeek.semester)+1)+\
+                                                              ' семестр 20'+str(groupAttendance[i].studyWeek.startStudyYear)+\
+                                                              '/20'+str(groupAttendance[i].studyWeek.startStudyYear+1),
+                                                      'value': groupAttendance[i].numberOfHours})
+                        resp = {'labels':weeksNumbers, 'series': [weeksCounters]}
+                        cache.set('get_statistics_group_general_'+str(groupId), resp, 60*5)
+                        return JsonResponse(resp)
                 else:
                     return HttpResponseBadRequest('invalid period')
             else:

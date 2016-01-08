@@ -91,6 +91,19 @@
 
 </head>
 <body>
-  <h1>Index</h1>
+  <h1>MTUCI Attendance Index</h1>
+  <h4>Links:</h4>
+  <ul>
+    <li><strong>Attendance: </strong>{% url "attendance" %}</li>
+    <li><strong>Steward: </strong>{% url "steward" %}</li>
+    <li><strong>Manage: </strong>{% url "manage:index" %}</li>
+  </ul>
+  <h4>Config:</h4>
+  <ul>
+    <li><strong>Host:</strong> mtuci.azurewebsites.net</li>
+    <li><strong>Debug:</strong> True <small>TODO: don't forget to test with production settings</small></li>
+    <li><strong>Caching:</strong> locmem.LocMemCache</li>
+    <li><strong>DB:</strong> MySQL ClearDB</li>
+  </ul>
 </body>
 </html>
