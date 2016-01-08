@@ -12,29 +12,44 @@ g.ct-series.ct-series-a line.ct-point:hover {
   stroke: rgba(255,255,255,.7);
   stroke-width: 10px;
 }
-div.chart-wrapper {
+g.ct-series.ct-series-b path {
+  stroke: rgba(0,0,0,0.3);
+  stroke-width: 2px;
+}
+g.ct-series.ct-series-b line.ct-point {
+  stroke: rgba(0,0,0,0);
+  stroke-width: 30px;
+  -webkit-transition: 1s;
+          transition: 1s;
+}
+g.ct-series.ct-series-b line.ct-point:hover {
+  stroke: rgba(0,0,0,.3);
+  stroke-width: 10px;
+}
+div.chart-card {
   padding: 0 !important;
   overflow: hidden;
   position: relative;
+  max-height: 100vh;
 }
-div.chart-wrapper .reload {
+div.chart-card .reload {
   position: absolute;
   z-index: 9;
   right: 30px;
   top: 20px;
 }
-div.chart-wrapper .reload i {
+div.chart-card .reload i {
   -webkit-transition: 1s;
           transition: 1s;
   color: rgba(255,255,255,0.75);
   cursor: pointer;
 }
-div.chart-wrapper .reload:hover i {
+div.chart-card .reload:hover i {
   color: rgba(255,255,255,1);
   -webkit-transform: rotateZ(90deg);
           transform: rotateZ(90deg);
 }
-div.chart-wrapper .chart-desc {
+div.chart-card .chart-desc {
   color: rgba(255,255,255,0.75);
   padding: 20px 30px;
   background: rgba(0, 0, 0, 0.15);
@@ -45,14 +60,14 @@ div.chart-wrapper .chart-desc {
   -webkit-transition: .5s;
           transition: .5s;
 }
-div.chart-wrapper .chart-desc i {
+div.chart-card .chart-desc i {
   position: absolute;
   right: 30px;
 }
-div.chart-wrapper .chart-desc:hover {
+div.chart-card .chart-desc:hover {
   color: rgba(255,255,255,1);
 }
-div.chart-wrapper .full-chart-desc {
+div.chart-card .full-chart-desc {
   background: rgba(0, 0, 0, 0.15);
   color: rgba(255,255,255,0.75);
   padding: 0px 30px 0px 30px;
@@ -61,11 +76,12 @@ div.chart-wrapper .full-chart-desc {
           transition: 1s;
   max-height: 0;
   overflow: hidden;
+  will-change: max-height;
 }
-div.chart-wrapper .full-chart-desc p {
+div.chart-card .full-chart-desc p {
   margin: 0;
 }
-div.chart-wrapper .full-chart-desc.active {
+div.chart-card .full-chart-desc.active {
   padding-bottom: 20px;
   max-height: 200px;
 }
@@ -99,26 +115,36 @@ div.chart-wrapper .full-chart-desc.active {
 .chartist-tooltip-value {
   font-weight: 300;
 }
-div.chart-wrapper .chart {
+.chart-card .chart-wrapper {
+  padding: 90px 50px 10px;
   width: 100%;
+  z-index: 7;
 }
-div.chart-wrapper .default {
+div.chart-card .chart {
+  width: 100%;
+  overflow: visible;
+}
+div.chart-card .default {
   width: 100%;
   padding: 20px 50% 0;
+  text-align: center;
 }
-div.chart-wrapper .default p {
+div.chart-card .default p {
   margin: 0 0 20px 0;
   font-weight: 300;
   color: rgba(255,255,255,0.75);
-  transform: translateX(-50%);
+  -webkit-transform: translateX(-50%);
+      -ms-transform: translateX(-50%);
+          transform: translateX(-50%);
 }
-div.chart-wrapper .default p i {
+div.chart-card .default p i {
   float: none;
   font-size: 35vh;
   display: block;
 }
 .chart-preloader {
   width: 100%;
+  position: absolute;
   padding-left: 50%;
   cursor: wait;
 }
@@ -130,4 +156,33 @@ div.chart-wrapper .default p i {
 }
 .chart-preloader .md-preloader svg circle {
   stroke: rgba(255,255,255,0.75);
+}
+div.chart-card .chart-back,
+div.chart-card .chart-forward {
+  position: absolute;
+  top: 50%;
+  z-index: 8;
+  cursor: pointer;
+  -webkit-transform: translateY(-50%);
+      -ms-transform: translateY(-50%);
+          transform: translateY(-50%);
+}
+div.chart-card .chart-back {
+  left: 10px;
+}
+div.chart-card .chart-forward{
+  right: 10px;
+}
+div.chart-card .chart-back i,
+div.chart-card .chart-forward i {
+  font-size: 5vh;
+  color: rgba(255,255,255,0.7);
+  background: rgba(0,0,0,.3);
+  border-radius: 100%;
+  padding: 3px;
+  box-shadow: 1px 3px 10px rgba(0, 0, 0, 0.2);
+}
+div.chart-card .chart-back:hover i,
+div.chart-card .chart-forward:hover i {
+  color: rgba(255,255,255,1);
 }

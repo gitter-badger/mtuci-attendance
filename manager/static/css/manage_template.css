@@ -1,3 +1,54 @@
+::-moz-selection {
+    background: #009688;
+}
+::selection {
+    background: #009688;
+}
+::-webkit-scrollbar-thumb {
+    background: #06796F;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.6);
+}
+::-webkit-scrollbar {
+    background: rgba(0, 0, 0, 0.05);
+    border: 1px solid rgba(0, 0, 0, 0.07);
+    width: 1vw;
+}
+body, html {
+    scrollbar-base-color: #06796F;
+    scrollbar-arrow-color: #06796F;
+}
+.ie {
+  position: fixed;
+  width: 100%;
+  top: 0;
+  left: 0;
+  right: 0;
+  display: none;
+  z-index: 9999;
+  text-align: center;
+  background: rgb(208, 71, 71);
+  color: white;
+  box-shadow: 0px 0px 15px black;
+}
+.ie .close {
+  position: absolute;
+  right: 15px;
+  top: 15px;
+  font-size: 20px;
+  font-family: Verdana;
+  cursor: pointer;
+  line-height: 1;
+}
+.ie p {
+  margin-bottom: 25px;
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.75);
+}
+.ie p.title {
+  font-size: 25px;
+  margin: 15px;
+  color: white;
+}
 .no_js {
     position: fixed;
     z-index: 99999;
@@ -21,12 +72,6 @@ i.material-icons {
      -moz-user-select: none;
       -ms-user-select: none;
           user-select: none;
-}
-::-moz-selection {
-    background: #C9F0DD;
-}
-::selection {
-    background: #C9F0DD;
 }
 a.button-collapse.top-nav {
   color: white;
@@ -69,16 +114,19 @@ main header.title {
 ul.side-nav li {
   -webkit-transition: .5s;
           transition: .5s;
+  width: 100%;
 }
 ul.side-nav li.account {
   position: absolute;
   bottom: 0;
+  left: 0;
   -webkit-transform: translateY(-100%);
       -ms-transform: translateY(-100%);
           transform: translateY(-100%);
-  width: 100%;
+     -moz-transform: translateY(0) !important; /* Обязательно последней moz */
 }
-ul.side-nav li.account ul#dropdown1 a.admin {
+ul.side-nav li.account ul#dropdown1 a.admin,
+ul.side-nav li.account ul#dropdown1 a.steward {
   padding: 10px 20px;
 }
 ul.side-nav li.account ul#dropdown1 a.logout {
@@ -99,6 +147,15 @@ footer div.powered img {
 }
 footer div.powered img:hover {
   opacity: 1;
+}
+footer.page-footer .powered p,
+footer.page-footer .powered p a {
+  color: rgba(255,255,255,.8);
+  -webkit-transition: .5s;
+          transition: .5s;
+}
+footer.page-footer .powered p a:hover {
+  color: rgba(255,255,255,1);
 }
 li.account a.dropdown-button i {
   -webkit-transform: translateY(25%);

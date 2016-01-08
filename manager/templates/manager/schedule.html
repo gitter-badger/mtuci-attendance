@@ -7,15 +7,16 @@
 {% endblock css %}
 
 {% block menu %}
-  <li><a class="away waves-effect" href="{% url "manage:main" %}">Главная</a></li>
-  <li class="teal"><a class="waves-effect away teal-text text-lighten-5 waves-light" href="{% url "manage:schedule" %}">Расписание</a></li>
+  <li class="waves-effect"><a class="away" href="{% url "manage:main" %}">Главная</a></li>
+  <li class="teal waves-effect waves-light"><a class="away teal-text text-lighten-5" href="{% url "manage:schedule" %}">Расписание</a></li>
+  <li class="waves-effect"><a class="away" href="{% url "manage:users" %}">Пользователи</a></li>
 {% endblock menu %}
 
 {% block page_title %}Расписание{% endblock page_title %}
 
 {% block content %}
   <div class="row">
-    <div class="col s12">
+    <div data-wow-delay=".8" class="wow flipInY col s12">
       <div class="card medium schedule-manage">
         <div class="card-preloader center-align valign-wrapper grey lighten-4">
           <div class="preloader-wrapper big active valign">
@@ -31,7 +32,7 @@
           </div>
         </div>
         <div class="card-image waves-effect waves-block waves-light">
-          <img src="{% static "imgs/schedule.jpg" %}">
+          <img src="{% static "imgs/schedule.png" %}">
         </div>
         <div class="card-content activator">
           <span class="card-title grey-text text-darken-4 activator">Управление расписанием<i class="material-icons right">more_vert</i></span>

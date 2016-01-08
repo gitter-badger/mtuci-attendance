@@ -1,10 +1,12 @@
+import datetime
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
-from django.http import JsonResponse, HttpResponseBadRequest
+from django.http import JsonResponse, HttpResponseBadRequest, HttpResponseNotFound
 from django.core.exceptions import PermissionDenied
 from django.utils import timezone
 from attendance.models import Attendance, StudyWeek
-from accounts.models import Account
+from accounts.models import Account, UniversityGroup
+from django.core.cache import cache
 
 def generateWeeksNumbersBySEweeks(startWeekNumber, endWeekNumber, weekStep=1):
     '''
@@ -128,7 +130,8 @@ def getWeekGroupAttendance(request):
     if not request.is_ajax():
         raise PermissionDenied
     # Проверка прав
-    if (not request.user.is_admin and not request.user.is_deanery and not request.user.is_steward) or \
+    if (not request.user.is_admin and not request.user.is_deanery and \
+        not request.user.is_steward) or \
         not request.user.is_active:
         raise PermissionDenied
     try:
@@ -253,20 +256,306 @@ def getSortingStrForStudyWeek(week):
 def getWeekTotalHours(week):
     return sum([att.numberOfHours for att in Attendance.objects.filter(studyWeek=week)])
 
-@login_required
-def getGlobalStatistics(request):
+def findDictInArr(lst, key, value):
+    for i, dic in enumerate(lst):
+        if dic[key] == value:
+            return i
+    return -1
+
+def getStatistics(request, target):
+    '''
+    Стоило разнести на отдельные функции, но так строить ajax запросы проще.
+    Придётся здесь пошаманить с низкоуровневым апи кэширования
+    '''
+    #TODO: всё-таки раскидать по функциям, хотя для того, чтобы избавиться от
+    # неральных уровней вложенности
     # Проверка, что запрос через ajax
     if not request.is_ajax():
         raise PermissionDenied
-    resp = {'labels': [], 'series': [[]]}
-    # allWeeks = StudyWeek.objects.order_by('startStudyYear', 'semester', 'number')
-    # Не сортируем, т.к. в модели задана сортировка по умолчанию
-    allWeeks = StudyWeek.objects.all()
+    if target == 'global':
+        if cache.get('get_statistics_global'):
+            return JsonResponse(cache.get('get_statistics_global'))
+        else:
+            resp = {'labels': [], 'series': [[]]}
+            # allWeeks = StudyWeek.objects.order_by('startStudyYear', 'semester', 'number')
+            # Не сортируем, т.к. в модели задана сортировка по умолчанию
+            allWeeks = StudyWeek.objects.all()
+            for week in allWeeks:
+                resp['labels'].append(getSortingStrForStudyWeek(week))
+                resp['series'][0].append({
+                    'meta': str(int(week.semester)+1)+' семестр 20'+str(week.startStudyYear)+\
+                        '/20'+str(week.startStudyYear+1),
+                    'value': getWeekTotalHours(week) })
+            cache.set('get_statistics_global', resp, 600)
+            return JsonResponse(resp)
+    elif target == 'user':
+        userId = int(request.GET.get('id'))
+        if request.user.is_authenticated() and not userId:
+            userId = request.user.id
+        if not userId:
+            return HttpResponseBadRequest('user id is required')
+        period = request.GET.get('period', 'semester')
+        try:
+            user = Account.objects.get(id=userId)
+        except Account.DoesNotExist:
+            return HttpResponseNotFound('no such user')
+        if request.user.is_authenticated():
+            if request.user == user or (request.user.universityGroup == user.universityGroup and
+                request.user.is_steward):
+                if period == 'general':
+                    generalAttendance = Attendance.objects.filter(student=user)
+                    resp = {'labels': [], 'series': [[]]}
+                    if generalAttendance:
+                        for i in range(len(generalAttendance)):
+                            resp['labels'].append(i)
+                            resp['series'][0].append({
+                                'meta': str(int(generalAttendance[i].studyWeek.semester)+1)+\
+                                        ' семестр 20'+str(generalAttendance[i].studyWeek.startStudyYear)+\
+                                        '/20'+str(generalAttendance[i].studyWeek.startStudyYear+1),
+                                'value': generalAttendance[i].numberOfHours })
+                        return JsonResponse(resp)
+                    else:
+                        generalWeeks = StudyWeek.objects.all()
+                        for i in range(len(generalWeeks)):
+                            resp['labels'].append(i)
+                            resp['series'][0].append({
+                                'meta': str(int(generalWeeks[i].semester)+1)+\
+                                        ' семестр 20'+str(generalWeeks[i].startStudyYear)+\
+                                        '/20'+str(generalWeeks[i].startStudyYear+1),
+                                'value': 0})
+                        return JsonResponse(resp)
+                elif period == 'semester':
+                    semesterNumber = request.GET.get('number')
+                    startStudyYear = request.GET.get('year')
+                    if not semesterNumber or not startStudyYear:
+                        today = timezone.now().date()
+                        if today <= datetime.date(today.year, 12, 31) and today >= datetime.date(today.year, 9, 1):
+                            # Первый семестр
+                            semester = False
+                        else:
+                            semester = True
+                        if not semester:
+                            # Если 1 семестр
+                            startStudyYear = today.year % 100
+                        else:
+                            startStudyYear = (today.year - 1) % 100
+                    semesterAttendance = Attendance.objects.filter(student=user,
+                                                                   studyWeek__semester=semester,
+                                                                   studyWeek__startStudyYear=startStudyYear)
+                    resp = {'labels': [], 'series': [[]]}
+                    if semesterAttendance:
+                        for i in range(len(semesterAttendance)):
+                            resp['labels'].append(semesterAttendance[i].studyWeek.number)
+                            resp['series'][0].append({
+                                'meta': str(semesterAttendance[i].studyWeek.number) + ' неделя',
+                                'value': semesterAttendance[i].numberOfHours })
+                    else:
+                        semesterWeeks = StudyWeek.objects.filter(semester=semester, startStudyYear=startStudyYear)
+                        for week in semesterWeeks:
+                            resp['labels'].append(week.number)
+                            resp['series'][0].append({
+                                'meta': str(week.number) + ' неделя',
+                                'value': 0})
+                    return JsonResponse(resp)
+                else:
+                    return HttpResponseBadRequest('bad period')
+            else:
+                raise PermissionDenied
+        else:
+            raise PermissionDenied
+    elif target == 'semester':
+        if cache.get('get_statistics_semester'):
+            return JsonResponse(cache.get('get_statistics_semester'))
+        else:
+            startStudyYear = request.GET.get('start_study_year')
+            semester = request.GET.get('semester')
+            if not startStudyYear or not semester:
+                today = timezone.now().date()
+                if today <= datetime.date(today.year, 12, 31) and today >= datetime.date(today.year, 9, 1):
+                    # Первый семестр
+                    semester = False
+                else:
+                    semester = True
+                if not semester:
+                    # Если 1 семестр
+                    startStudyYear = today.year % 100
+                else:
+                    startStudyYear = (today.year - 1) % 100
+            startStudyYear = int(startStudyYear)
+            semester = bool(int(semester))
+            semesterWeeks = StudyWeek.objects.filter(semester=semester, startStudyYear=startStudyYear)
+            if not semesterWeeks:
+                return HttpResponseNotFound('no weeks in this semester')
+            resp = {'labels': [], 'series': [[]]}
+            for week in semesterWeeks:
+                weekAttendance = Attendance.objects.filter(studyWeek=week)
+                weekHours = 0
+                for att in weekAttendance:
+                    weekHours += att.numberOfHours
+                resp['labels'].append(week.number)
+                resp['series'][0].append({
+                    'meta': str(week.number) + ' неделя (данный семестр)',
+                    'value': weekHours})
+            if not semester:
+                prevSemester = True
+                prevStartStudyYear = startStudyYear - 1
+            else:
+                prevSemester = False
+                prevStartStudyYear = startStudyYear
+            prevSemesterWeeks = StudyWeek.objects.filter(semester=prevSemester, startStudyYear=prevStartStudyYear)
+            prevSemesterWeeksNumbers = [week.number for week in prevSemesterWeeks]
+            if prevSemesterWeeks:
+                resp['series'].append([])
+                for weekNumber in resp['labels']:
+                    if weekNumber in prevSemesterWeeksNumbers:
+                        week = StudyWeek.objects.get(semester=prevSemester,
+                                                       startStudyYear=prevStartStudyYear,
+                                                       number=weekNumber)
+                        weekAttendance = Attendance.objects.filter(studyWeek=week)
+                        weekHours = 0
+                        for att in weekAttendance:
+                            weekHours += att.numberOfHours
+                        resp['series'][1].append({
+                            'meta': str(weekNumber) + ' неделя (предыдущий семестр)',
+                            'value': weekHours})
+                    else:
+                        resp['series'][1].append({
+                            'meta': str(weekNumber) + ' неделя (предыдущий семестр)',
+                            'value': None})
+            cache.set('get_statistics_semester', resp, 60*5)
+            return JsonResponse(resp)
+    elif target == 'group':
+        try:
+            groupId = int(request.GET.get('id'))
+        except:
+            return HttpResponseBadRequest('id is invalid')
+        period = request.GET.get('period', 'semester')
+        if not groupId:
+            return HttpResponseBadRequest('group id is required')
+        try:
+            group = UniversityGroup.objects.get(id=groupId)
+        except UniversityGroup.DoesNotExist:
+            return HttpResponseNotFound('no such group')
+        if request.user.is_authenticated():
+            if request.user.is_steward and request.user.universityGroup == group:
+                if period == 'semester':
+                    semester = request.GET.get('semester')
+                    startStudyYear = request.GET.get('start_study_year')
+                    if not startStudyYear or not semester:
+                        today = timezone.now().date()
+                        if today <= datetime.date(today.year, 12, 31) and today >= datetime.date(today.year, 9, 1):
+                            # Первый семестр
+                            semester = False
+                        else:
+                            semester = True
+                        if not semester:
+                            # Если 1 семестр
+                            startStudyYear = today.year % 100
+                        else:
+                            startStudyYear = (today.year - 1) % 100
+                    startStudyYear = int(startStudyYear)
+                    semester = bool(int(semester))
+                    semesterWeeks = StudyWeek.objects.filter(semester=semester, startStudyYear=startStudyYear)
+                    if not semesterWeeks:
+                        return HttpResponseNotFound('no weeks in this semester')
+                    resp = {'labels': [], 'series': [[]]}
+                    for week in semesterWeeks:
+                        weekAttendance = Attendance.objects.filter(studyWeek=week, student__universityGroup=group)
+                        weekHours = 0
+                        for att in weekAttendance:
+                            weekHours += att.numberOfHours
+                        resp['labels'].append(week.number)
+                        resp['series'][0].append({
+                            'meta': str(week.number) + ' неделя (данный семестр)',
+                            'value': weekHours})
+                    if not semester:
+                        prevSemester = True
+                        prevStartStudyYear = startStudyYear - 1
+                    else:
+                        prevSemester = False
+                        prevStartStudyYear = startStudyYear
+                    prevSemesterWeeks = StudyWeek.objects.filter(semester=prevSemester, startStudyYear=prevStartStudyYear)
+                    prevSemesterWeeksNumbers = [week.number for week in prevSemesterWeeks]
+                    if prevSemesterWeeks:
+                        resp['series'].append([])
+                        for weekNumber in resp['labels']:
+                            if weekNumber in prevSemesterWeeksNumbers:
+                                week = StudyWeek.objects.get(semester=prevSemester,
+                                                             startStudyYear=prevStartStudyYear,
+                                                             number=weekNumber)
+                                weekAttendance = Attendance.objects.filter(studyWeek=week, student__universityGroup=group)
+                                weekHours = 0
+                                for att in weekAttendance:
+                                    weekHours += att.numberOfHours
+                                resp['series'][1].append({
+                                    'meta': str(weekNumber) + ' неделя (предыдущий семестр)',
+                                    'value': weekHours})
+                            else:
+                                resp['series'][1].append({
+                                    'meta': str(weekNumber) + ' неделя (предыдущий семестр)',
+                                    'value': None})
+                    return JsonResponse(resp)
+                elif period == 'general':
+                    groupAttendance = Attendance.objects.filter(student__universityGroup=group)
+                    # Записываем в нужном формате нулевые элементы
+                    weeksNumbers = [str(groupAttendance[0].studyWeek.startStudyYear)+\
+                                    str(int(groupAttendance[0].studyWeek.semester))+\
+                                    str(groupAttendance[0].studyWeek.number)]
+                    weeksCounters = [{'meta': str(int(groupAttendance[0].studyWeek.semester)+1)+\
+                                              ' семестр 20'+str(groupAttendance[0].studyWeek.startStudyYear)+\
+                                              '/20'+str(groupAttendance[0].studyWeek.startStudyYear+1),
+                                      'value': groupAttendance[0].numberOfHours}]
+                    # Сравниваем все остальные с предыдущим
+                    for i in range(1,len(groupAttendance)):
+                        # Если неделя рассматриваемого посещения та же, что и последняя,
+                        # то просто приплюсовываем количество часов
+                        if str(groupAttendance[i].studyWeek.startStudyYear)+\
+                           str(int(groupAttendance[i].studyWeek.semester))+\
+                           str(groupAttendance[i].studyWeek.number) == weeksNumbers[-1]:
+                           weeksCounters[-1]['value'] += groupAttendance[i].numberOfHours
+                        else:
+                            # Иначе создаём новую запись
+                            weeksNumbers.append(str(groupAttendance[i].studyWeek.startStudyYear)+\
+                                                str(int(groupAttendance[i].studyWeek.semester))+\
+                                                str(groupAttendance[i].studyWeek.number))
+                            weeksCounters.append({'meta': str(int(groupAttendance[i].studyWeek.semester)+1)+\
+                                                          ' семестр 20'+str(groupAttendance[i].studyWeek.startStudyYear)+\
+                                                          '/20'+str(groupAttendance[i].studyWeek.startStudyYear+1),
+                                                  'value': groupAttendance[i].numberOfHours})
+                    resp = {'labels':weeksNumbers, 'series': [weeksCounters]}
+                    return JsonResponse(resp)
+                else:
+                    return HttpResponseBadRequest('invalid period')
+            else:
+                raise PermissionDenied
+        else:
+            raise PermissionDenied
+    elif target == 'top_5_attendance':
+        # Для топа на странице attendance
+        if cache.get('get_statistics_top_5_attendance'):
+            return JsonResponse(cache.get('get_statistics_top_5_attendance'))
+        else:
+            allAtt = Attendance.objects.all()
+            studentsHours = []
+            groupsHours = []
+            for att in allAtt:
+                if att.student:
+                    if any(d['name'] == att.student.last_name+' '+att.student.first_name for d in studentsHours):
+                        studentsHours[findDictInArr(studentsHours,'name',att.student.last_name+' '+att.student.first_name)]['hours'] += att.numberOfHours
+                    else:
+                        studentsHours.append({'name':att.student.last_name+' '+att.student.first_name, 'hours':att.numberOfHours})
+                if att.student.universityGroup:
+                    if any(d['name'] == att.student.universityGroup.name for d in groupsHours):
+                        groupsHours[findDictInArr(groupsHours,'name',att.student.universityGroup.name)]['hours'] += att.numberOfHours
+                    else:
+                        groupsHours.append({'name':att.student.universityGroup.name, 'hours':att.numberOfHours})
+                studentsHours = sorted(studentsHours, key=lambda d: d['hours'], reverse=True)
+                groupsHours = sorted(groupsHours, key=lambda d: d['hours'], reverse=True)
+            resp = {'students':studentsHours[:5],'groups':groupsHours[:5]}
+            cache.set('get_statistics_top_5_attendance', resp, 60*30)
+            return JsonResponse(resp)
+    else:
+        return HttpResponseBadRequest('bad target')
 
-    for week in allWeeks:
-        resp['labels'].append(getSortingStrForStudyWeek(week))
-        resp['series'][0].append({
-            'meta': str(int(week.semester)+1)+' семестр 20'+str(week.startStudyYear)+\
-                '/20'+str(week.startStudyYear+1),
-            'value': getWeekTotalHours(week) })
-    return JsonResponse(resp)
+def attendance(request):
+    return render(request, 'attendance/attendance.html', {})

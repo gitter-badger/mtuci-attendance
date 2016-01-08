@@ -26,3 +26,10 @@ def schedule(request):
     context['start_study_year'] = startStudyYear
     context['semester'] = semester
     return render(request, 'manager/schedule.html', context)
+
+@login_required
+def users(request):
+    if (not request.user.is_deanery and not request.user.is_admin) or not request.user.is_active:
+        raise PermissionDenied
+    context = {}
+    return render(request, 'manager/users.html', context)

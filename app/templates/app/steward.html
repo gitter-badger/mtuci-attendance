@@ -1,6 +1,32 @@
 {% extends "app/template.html" %}
 {% load staticfiles %}
 {% block title %}Интерфейс старосты{% endblock title %}
+{% block opengraph %}
+  <meta property="og:title" content="Посещаемость МТУСИ - Страница старосты">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="{% url "steward" %}">
+  <meta property="og:image" content="{% static "imgs/og_placeholder.jpg" %}">
+  <meta property="og:description" content="Страница для управления группой в приложении по контролю за посещаемостью МТУСИ">
+  <meta property="og:locale" content="ru_RU">
+  <meta property="og:site_name" content="МТУСИ">
+
+  <meta itemprop="name" content="Посещаемость МТУСИ">
+  <meta itemprop="description" content="Страница старосты. Приложение для контроля за посещаемостью студентов МТУСИ">
+  <meta itemprop="image" content="{% static "imgs/og_placeholder.jpg" %}">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:site" content="Посещаемость МТУСИ">
+  <meta name="twitter:title" content="Страница старосты">
+  <meta name="twitter:description" content="Приложение для контроля за посещаемостью студентов МТУСИ">
+  <meta name="twitter:creator" content="МТУСИ">
+  <meta name="twitter:image:src" content="{% static "imgs/og_placeholder.jpg" %}">
+  <meta name="twitter:domain" content="{% url "index" %}">
+
+  <meta name="title" content="Посещаемость МТУСИ">
+  <link rel="image_src" href="{% static "imgs/og_placeholder.jpg" %}">
+  <meta name="description" content="Страница старосты - приложение для контроля за посещаемостью студентов МТУСИ">
+
+{% endblock %}
 {% block css %}
   <link rel="stylesheet" href="{% static "css/steward.css" %}">
   <link rel="stylesheet" href="{% static "css/preloader.css" %}">
@@ -11,7 +37,7 @@
 {% block content %}
   <div class="wp"><img src="{% static "imgs/wp.jpg" %}"></div>
   <div class="container main">
-    <div class="group-logo-container">
+    <div data-wow-delay=".7s" class="wow flipInX group-logo-container">
       <div class="group-logo-front">
         <i class="material-icons">group</i>
       </div>
@@ -35,7 +61,7 @@
         <div class="start-load-data-error">Неучебное время</div>
       {% else %}
         {% if weeks and active_week %}
-          <h1 class="semester"{% if start_study_year and semester %} data-semester-number="{{semester}}" data-start-study-year="{{start_study_year}}"{% endif %}>
+          <h1 data-wow-delay=".9s" class="wow flipInX semester"{% if start_study_year and semester %} data-semester-number="{{semester}}" data-start-study-year="{{start_study_year}}"{% endif %}>
             {% if start_study_year and semester %}
               {{semester}} семестр 20{{start_study_year}}/20{{next_study_year}} учебного года
             {% else %}
@@ -44,11 +70,11 @@
           </h1>
           <ul class="weeks-numbers">
             {% for week in weeks %}
-              <li class="week{% if week == active_week %} active{% endif %}" data-week-number="{{week}}">{{week}}</li>
+              <li data-wow-delay="1s" data-wow-duration="1s" class="wow flipInX week{% if week == active_week %} active{% endif %}" data-week-number="{{week}}">{{week}}</li>
             {% endfor %}
           </ul>
           <div class="group-display">
-            
+
           </div>
         {% else %}
           <div class="start-load-data-error">Не удалось получить расписание</div>
@@ -57,6 +83,15 @@
     {% endif %}
   </div>
 {% endblock content %}
+
+{% block pageFooterTitle %}
+  Страница старосты
+{% endblock pageFooterTitle %}
+
+{% block pageFooterDesc %}
+  Данная страница предназначена для изменения данных о посещаемости студентов и просмотра их информации
+{% endblock pageFooterDesc %}
+
 {% block js %}
   <script type="text/javascript" src="{% static "js/steward.js" %}"></script>
 {% endblock js %}

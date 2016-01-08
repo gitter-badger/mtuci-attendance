@@ -4,11 +4,11 @@
   $.fn.drawChart = function(options) {
 
     var settings = $.extend( {
-      'type'             : 'line',
-      'data'             : {'labels': [], 'series': [[]]},
-      'showPoint'        : true,
-      'tooltip'          : false,
-      'aspectRatio'      : 'ct-perfect-fourth'
+      type             : 'line',
+      data             : {'labels': [], 'series': [[]]},
+      showPoint        : true,
+      tooltip          : false,
+      aspectRatio      : 'ct-minor-seventh',
     }, options);
 
     var chartistOptions = {
@@ -21,8 +21,11 @@
         axisY: {
             showGrid: false,
             showLabel: false,
-            offset: 60
+            offset: 20
         },
+        lineSmooth: Chartist.Interpolation.cardinal({
+          fillHoles: true,
+        }),
         plugins: []
     };
     if (settings.tooltip){
@@ -33,12 +36,6 @@
     if (settings.type == 'line') {
       new Chartist.Line(this.selector, settings.data, chartistOptions);
     }
-
-
-    if (settings.tooltip) {
-
-    }
-
     return this
 
   };

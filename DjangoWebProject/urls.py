@@ -20,10 +20,17 @@ handler500 = 'app.views.error500'
 
 urlpatterns = patterns('',
 
-    #url(r'^$', 'app.views.index', name='index'),
-    #url(r'^manage/$', 'app.views.manage', name='manage'),
+    # Index urls
+    # Обратный порядок относительно частоты, зато тег url возвращет красивый url,
+    # т.к. берёт последний
+    url(r'^default/$', 'app.views.index', name='index'),
+    url(r'^main/$', 'app.views.index', name='index'),
+    url(r'^index/$', 'app.views.index', name='index'),
+    url(r'^$', 'app.views.index', name='index'),
+
     url(r'^steward/$', 'app.views.steward', name='steward'),
     url(r'^manage/', include('manager.urls', namespace='manage')),
+    url(r'^attendance/$', 'attendance.views.attendance', name='attendance'),
 
     # AJAX
     url(r'^ajax/create_weeks/$', 'attendance.views.createWeeks'),
@@ -31,7 +38,9 @@ urlpatterns = patterns('',
     url(r'^ajax/change_attendance_hours/$', 'attendance.views.changeAttendanceHours'),
     url(r'^ajax/get_existing_weeks/$', 'attendance.views.getExistingWeeks'),
     url(r'^ajax/delete_weeks_by_id/$', 'attendance.views.deleteWeeksById'),
-    url(r'^ajax/get_global_statistics/$', 'attendance.views.getGlobalStatistics'),
+    url(r'^ajax/get_statistics/(?P<target>\w+)/$', 'attendance.views.getStatistics'),
+    url(r'^ajax/search_accounts/$', 'accounts.views.searchAccounts'),
+    url(r'^ajax/user_info/$', 'accounts.views.userInfo'),
 
     # Аутентификация
     url(r'^login/$', 'accounts.views.login', name='login'),

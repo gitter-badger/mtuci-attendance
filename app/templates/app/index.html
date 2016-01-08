@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!--[if IE]><script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  <title>Главная | МТУСИ</title>
+  {% load staticfiles %}
+
+  <meta name="description" content="Главная страница приложения по контролю за посещаемостью студентов МТУСИ">
+  <meta name="keywords" content="МТУСИ, посещаемость, статистика, главная, Московский, технический, университет, связи, информатики">
+  <meta name="robots" content="index,follow">
+  <meta name="copyright" content="Московский технический университет связи и информатики">
+  <meta name="language" content="RU">
+
+  <meta name="apple-mobile-web-app-title" content="Посещаемость МТУСИ">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="format-detection" content="telephone=no">
+
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="application-name" content="Посещаемость МТУСИ">
+
+  <meta name="msapplication-tooltip" content="Приложение по контролю за посещаемостью МТУСИ">
+  <meta name="msapplication-navbutton-color" content="#009688">
+
+  <link rel="index" title="Посещаемость МТУСИ" href="{% url "index" %}">
+  <meta name="application-url" content="{% url "index" %}">
+  <meta name="msapplication-starturl" content="{% url "index" %}">
+
+  <meta name="geo.position" content="55.784365;37.482593">
+  <meta name="ICBM" content="55.784365, 37.482593">
+  <meta name="geo.country" content="ru">
+  <meta name="geo.placename" content="Moscow, Russian Federation">
+  <meta name="og:latitude" content="55.784354">
+  <meta name="og:longitude" content="37.482593">
+  <meta name="og:street-address" content="улица Народного Ополчения 32">
+  <meta name="og:locality" content="Москва">
+  <meta name="og:region" content="Москва">
+  <meta name="og:country-name" content="Российская Федерация">
+  <meta property="place:location:latitude" content="55.784354">
+  <meta property="place:location:longitude" content="37.482593">
+  <meta property="business:contact_data:street_address" content="улица Народного Ополчения 32">
+  <meta property="business:contact_data:locality" content="Москва">
+  <meta property="business:contact_data:country_name" content="Российская Федерация">
+
+  <meta name="web_author" content="Igor Morozov (gogamwar@gmail.com)">
+  <meta name="designer" content="Igor Morozov (gogamwar@gmail.com)">
+
+  <meta property="og:title" content="Посещаемость МТУСИ - Главная страница">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="{% url "index" %}">
+  <meta property="og:image" content="{% static "imgs/og_placeholder.jpg" %}">
+  <meta property="og:description" content="Главная страница приложения по контролю за посещаемостью МТУСИ">
+  <meta property="og:locale" content="ru_RU">
+  <meta property="og:site_name" content="МТУСИ">
+
+  <meta itemprop="name" content="Посещаемость МТУСИ">
+  <meta itemprop="description" content="Приложение для контроля за посещаемостью студентов МТУСИ">
+  <meta itemprop="image" content="{% static "imgs/og_placeholder.jpg" %}">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:site" content="Посещаемость МТУСИ">
+  <meta name="twitter:title" content="Главная страница">
+  <meta name="twitter:description" content="Приложения для контроля за посещаемостью студентов МТУСИ">
+  <meta name="twitter:creator" content="МТУСИ">
+  <meta name="twitter:image:src" content="{% static "imgs/og_placeholder.jpg" %}">
+  <meta name="twitter:domain" content="{% url "index" %}">
+
+  <meta name="title" content="Посещаемость МТУСИ">
+  <link rel="image_src" href="{% static "imgs/og_placeholder.jpg" %}">
+
+  <link rel="apple-touch-icon" sizes="57x57" href="{% static "icons/apple-icon-57x57.png" %}">
+  <link rel="apple-touch-icon" sizes="60x60" href="{% static "icons/apple-icon-60x60.png" %}">
+  <link rel="apple-touch-icon" sizes="72x72" href="{% static "icons/apple-icon-72x72.png" %}">
+  <link rel="apple-touch-icon" sizes="76x76" href="{% static "icons/apple-icon-76x76.png" %}">
+  <link rel="apple-touch-icon" sizes="114x114" href="{% static "icons/apple-icon-114x114.png" %}">
+  <link rel="apple-touch-icon" sizes="120x120" href="{% static "icons/apple-icon-120x120.png" %}">
+  <link rel="apple-touch-icon" sizes="144x144" href="{% static "icons/apple-icon-144x144.png" %}">
+  <link rel="apple-touch-icon" sizes="152x152" href="{% static "icons/apple-icon-152x152.png" %}">
+  <link rel="apple-touch-icon" sizes="180x180" href="{% static "icons/apple-icon-180x180.png" %}">
+  <link rel="icon" type="image/png" sizes="192x192"  href="{% static "icons/android-icon-192x192.png" %}">
+  <link rel="icon" type="image/png" sizes="32x32" href="{% static "icons/favicon-32x32.png" %}">
+  <link rel="icon" type="image/png" sizes="96x96" href="{% static "icons/favicon-96x96.png" %}">
+  <link rel="icon" type="image/png" sizes="16x16" href="{% static "icons/favicon-16x16.png" %}">
+  <link rel="manifest" href="{% static "icons/manifest.json" %}">
+  <meta name="msapplication-TileColor" content="#009688">
+  <meta name="msapplication-TileImage" content="{% static "icons/ms-icon-144x144.png" %}">
+  <meta name="theme-color" content="#009688">
+
+</head>
+<body>
+  <h1>Index</h1>
+</body>
+</html>

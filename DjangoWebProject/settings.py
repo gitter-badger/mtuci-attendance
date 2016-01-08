@@ -22,25 +22,25 @@ MANAGERS = ADMINS
 DATABASES = {
 
     # sqlite3
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': path.join(PROJECT_ROOT, 'db1.sqlite3'),
-        'USER': '',
-        'PASSWORD': '',
-        'HOST': '',
-        'PORT': '',
-    }
+    #'default': {
+    #    'ENGINE': 'django.db.backends.sqlite3',
+    #    'NAME': path.join(PROJECT_ROOT, 'db1.sqlite3'),
+    #    'USER': '',
+    #    'PASSWORD': '',
+    #    'HOST': '',
+    #    'PORT': '',
+    #}
 
     # mtuci in Azure
     # Database=mtuci;Data Source=eu-cdbr-azure-west-c.cloudapp.net;User Id=bb2900572a202f;Password=1577d104
-    #'default': {
-    #    'ENGINE': 'django.db.backends.mysql',
-    #    'NAME': 'mtuci',
-    #    'USER': 'bb2900572a202f',
-    #    'PASSWORD': '1577d104',
-    #    'HOST': 'eu-cdbr-azure-west-c.cloudapp.net',
-    #    'PORT': '',
-    #}
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'mtuci',
+        'USER': 'bb2900572a202f',
+        'PASSWORD': '1577d104',
+        'HOST': 'eu-cdbr-azure-west-c.cloudapp.net',
+        'PORT': '',
+    }
 }
 
 LOGIN_URL = '/login/'
@@ -116,6 +116,9 @@ TEMPLATE_LOADERS = (
 )
 
 MIDDLEWARE_CLASSES = (
+    # Обязательно первой
+    #'django.middleware.cache.UpdateCacheMiddleware',
+
     'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -123,6 +126,8 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.messages.middleware.MessageMiddleware',
     # Uncomment the next line for simple clickjacking protection:
     # 'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    # Обязательно последней
+    #'django.middleware.cache.FetchFromCacheMiddleware',
 )
 
 ROOT_URLCONF = 'DjangoWebProject.urls'
@@ -202,6 +207,23 @@ TEMPLATES = [
         },
     },
 ]
+
+# Кэш
+# Memcached нет, т.к. на Azure чёрт ногу сломит его создать
+# БД кэш даже не рассматривается, 20 Мб даёт ClearDB :(
+CACHES = {
+    # В файловой системе - медленный и кушает ограниченное место на Azure
+    'default': {
+        'BACKEND': 'django.core.cache.backends.filebased.FileBasedCache',
+        'LOCATION': path.join(PROJECT_ROOT, 'cache'),
+        'TIMEOUT': 60 * 30,
+    }
+    # Кэш в оперативе - конфетка
+    #'default': {
+    #    'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
+    #    'LOCATION': 'unique-snowflake'
+    #}
+}
 
 # Модель пользователя
 AUTH_USER_MODEL = 'accounts.Account'

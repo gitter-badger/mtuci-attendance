@@ -4,8 +4,49 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!--[if IE]><script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
   <title>{% block title %}{% endblock title %} - Панель управления | МТУСИ</title>
   {% load staticfiles %}
+
+  <meta name="description" content="Управление приложением по контролю за посещаемостью студентов МТУСИ">
+  <meta name="keywords" content="МТУСИ, управление, посещаемость, статистика, главная, Московский, технический, университет, связи, информатики">
+  <meta name="robots" content="noindex,nofollow">
+  <meta name="copyright" content="Московский технический университет связи и информатики">
+  <meta name="language" content="RU">
+
+  <meta name="apple-mobile-web-app-title" content="Посещаемость МТУСИ">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="format-detection" content="telephone=no">
+
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="application-name" content="Посещаемость МТУСИ">
+
+  <meta name="msapplication-tooltip" content="Приложение по контролю за посещаемостью МТУСИ">
+  <meta name="msapplication-navbutton-color" content="#009688">
+
+  <link rel="index" title="Посещаемость МТУСИ" href="{% url "index" %}">
+  <meta name="application-url" content="{% url "index" %}">
+  <meta name="msapplication-starturl" content="{% url "index" %}">
+
+  <meta name="geo.position" content="55.784365;37.482593">
+  <meta name="ICBM" content="55.784365, 37.482593">
+  <meta name="geo.country" content="ru">
+  <meta name="geo.placename" content="Moscow, Russian Federation">
+  <meta name="og:latitude" content="55.784354">
+  <meta name="og:longitude" content="37.482593">
+  <meta name="og:street-address" content="улица Народного Ополчения 32">
+  <meta name="og:locality" content="Москва">
+  <meta name="og:region" content="Москва">
+  <meta name="og:country-name" content="Российская Федерация">
+  <meta property="place:location:latitude" content="55.784354">
+  <meta property="place:location:longitude" content="37.482593">
+  <meta property="business:contact_data:street_address" content="улица Народного Ополчения 32">
+  <meta property="business:contact_data:locality" content="Москва">
+  <meta property="business:contact_data:country_name" content="Российская Федерация">
+
+  <meta name="web_author" content="Igor Morozov (gogamwar@gmail.com)">
+  <meta name="designer" content="Igor Morozov (gogamwar@gmail.com)">
 
   <!-- Preloader -->
   <link rel="stylesheet" href="{% static "css/preloader.css" %}">
@@ -28,10 +69,17 @@
   <meta name="msapplication-TileImage" content="{% static "icons/ms-icon-144x144.png" %}">
   <meta name="theme-color" content="#009688">
 
+  <!-- Material Design fonts -->
+  <!--<link href='https://fonts.googleapis.com/css?family=Roboto:400,300,500,700&subset=latin,cyrillic' rel='stylesheet' type='text/css'>-->
+  <link rel="stylesheet" href="{% static "css/roboto.css" %}">
+  <!--<link href='https://fonts.googleapis.com/css?family=Roboto+Condensed:400,300&subset=latin,cyrillic' rel='stylesheet' type='text/css'>-->
+  <link rel="stylesheet" href="{% static "css/roboto_condensed.css" %}">
   <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/css/materialize.min.css">
 
   <link rel="stylesheet" href="{% static "css/outdatedbrowser.min.css" %}" charset="utf-8">
+
+  <link rel="stylesheet" href="{% static "css/animate.min.css" %}">
 
   <link rel="stylesheet" href="{% static "css/manage_template.css" %}">
   {% block css %}{% endblock css %}
@@ -44,7 +92,7 @@
       </div>
   </noscript>
   <div class="preloader">
-      <div class="md-preloader"><svg xmlns="http://www.w3.org/2000/svg" version="1.1" height="75" width="75" viewbox="0 0 75 75"><circle cx="37.5" cy="37.5" r="33.5" stroke-width="8"/></svg></div>
+      <div class="md-preloader"><svg xmlns="http://www.w3.org/2000/svg" version="1.1" height="75" width="75" viewbox="0 0 75 75"><circle cx="37.5" cy="37.5" r="33.5" stroke-width="8"></circle></svg></div>
   </div>
   <div id="outdated">
    <h6>Ваш браузер устарел!</h6>
@@ -53,6 +101,15 @@
       <a id="btnUpdateBrowser" href="http://outdatedbrowser.com/">Обновить браузер </a>
    </p>
    <p class="last"><a href="#" id="btnCloseUpdateBrowser" title="Закрыть">&times;</a></p>
+  </div>
+  <div class="ie">
+    <p class="title">Кажется, вы используете Internet Explorer.</p>
+    <p>
+      Сайт может отображаться неправильно, а некоторый функционал может быть недоступен.<br/>
+      Для наилучшего результата используйте один из современных браузеров на движке Blink или Webkit <br/>
+      Закройте данное придупреждение, если хотите, чтобы оно больше не показывалось (если браузер поддерживает local storage)
+    </p>
+    <div class="close">x</div>
   </div>
 
   <header>
@@ -69,7 +126,12 @@
       <li class="account">
        <a class='dropdown-button' href='#' data-activates='dropdown1'><i class="material-icons">account_circle</i> {{request.user.last_name}} {{request.user.first_name}}</a>
        <ul id='dropdown1' class='dropdown-content'>
-         <li><a class="admin away" href="{% url "admin:index" %}">Панель администратора</a></li>
+         {% if request.user.is_admin %}
+            <li><a class="admin away" href="{% url "admin:index" %}">Панель администратора</a></li>
+         {% endif %}
+         {% if request.user.is_steward %}
+             <li><a href="{% url "steward" %}" class="steward away">Интерфейс старосты</a></li>
+         {% endif %}
          <li class="divider"></li>
          <li><a class="logout away" href="{% url "logout" %}">Выйти</a></li>
        </ul>
@@ -79,7 +141,7 @@
 
   <main>
     <header class="teal teal-text text-lighten-5 title">
-      <div class="container">
+      <div data-wow-delay=".6s" class="wow fadeInDown container">
         {% block page_title %}{% endblock page_title %}
       </div>
     </header>
@@ -95,39 +157,55 @@
     <div class="container">
       <div class="row">
         <div class="col l6 s12">
-          <h5 class="white-text">Панель управления</h5>
-          <p class="grey-text text-lighten-4">Данная страница предназначена для управления сайтом и просмотра статистики</p>
+          <h5 class="wow fadeInUp white-text">Панель управления</h5>
+          <p data-wow-delay=".1s" class="wow fadeInUp grey-text text-lighten-4">Данная страница предназначена для управления сайтом и просмотра статистики</p>
         </div>
         <div class="col l4 offset-l2 s12">
-          <h5 class="white-text">Ссылки</h5>
+          <h5 class="wow fadeInUp white-text">Ссылки</h5>
           <ul>
-            <li><a class="away grey-text text-lighten-3" href="/">Главная</a></li>
-            <li><a class="away grey-text text-lighten-3" href="#!">Посещаемость</a></li>
-            <li><a class="away grey-text text-lighten-3" href="{% url "admin:index" %}">Панель администратора</a></li>
+            <li><a data-wow-delay=".1s" class="wow fadeInUp away grey-text text-lighten-3" href="{% url "index" %}">Главная</a></li>
+            <li><a data-wow-delay=".2s" class="wow fadeInUp away grey-text text-lighten-3" href="{% url "attendance" %}">Посещаемость</a></li>
+            <li><a data-wow-delay=".3s" class="wow fadeInUp away grey-text text-lighten-3" href="{% url "admin:index" %}">Панель администратора</a></li>
           </ul>
         </div>
       </div>
       <div class="row">
         <div class="col s12 powered">
-          <h5 class="white-text">Powered by</h5>
-          <a target="_blank" href="https://www.djangoproject.com/"><img src="{% static "imgs/django-white.svg" %}" alt="Django" /></a>
-          <a target="_blank" href="https://atom.io/"><img src="{% static "imgs/atom-white.svg" %}" alt="Atom" /></a>
-          <a target="_blank" href="http://getbootstrap.com/"><img src="{% static "imgs/bootstrap-white.svg" %}" alt="Bootstrap" /></a>
-          <a target="_blank" href="http://www.w3.org/TR/2001/WD-css3-roadmap-20010523/"><img src="{% static "imgs/css-3-white.svg" %}" alt="CSS3" /></a>
-          <a target="_blank" href="http://www.w3.org/TR/html5/"><img src="{% static "imgs/html-5-white.svg" %}" alt="HTML5" /></a>
-          <a target="_blank" href="https://git-scm.com/"><img src="{% static "imgs/git-icon-white.svg" %}" alt="Git" /></a>
-          <a target="_blank" href="https://jquery.com/"><img src="{% static "imgs/jquery-white.svg" %}" alt="JQuery" /></a>
-          <a target="_blank" href="https://azure.microsoft.com/"><img src="{% static "imgs/microsoft-windows-white.svg" %}" alt="Azure" /></a>
-          <a target="_blank" href="https://www.mysql.com/"><img src="{% static "imgs/mysql-white.svg" %}" alt="MySQL" /></a>
-          <a target="_blank" href="https://www.python.org/"><img src="{% static "imgs/python-white.svg" %}" alt="Python" /></a>
-          <a target="_blank" href="http://materializecss.com/"><img src="{% static "imgs/materialize-white.svg" %}" alt="Materialize" /></a>
+          <h5 class="wow fadeInUp white-text">Powered by</h5>
+          <a data-wow-delay=".1s" class="wow fadeInUp" target="_blank" href="https://www.djangoproject.com/"><img src="{% static "imgs/django-white.svg" %}" alt="Django" /></a>
+          <a data-wow-delay=".2s" class="wow fadeInUp" target="_blank" href="https://atom.io/"><img src="{% static "imgs/atom-white.svg" %}" alt="Atom" /></a>
+          <a data-wow-delay=".3s" class="wow fadeInUp" target="_blank" href="http://getbootstrap.com/"><img src="{% static "imgs/bootstrap-white.svg" %}" alt="Bootstrap" /></a>
+          <a data-wow-delay=".4s" class="wow fadeInUp" target="_blank" href="http://www.w3.org/TR/2001/WD-css3-roadmap-20010523/"><img src="{% static "imgs/css-3-white.svg" %}" alt="CSS3" /></a>
+          <a data-wow-delay=".5s" class="wow fadeInUp" target="_blank" href="http://www.w3.org/TR/html5/"><img src="{% static "imgs/html-5-white.svg" %}" alt="HTML5" /></a>
+          <a data-wow-delay=".6s" class="wow fadeInUp" target="_blank" href="https://git-scm.com/"><img src="{% static "imgs/git-icon-white.svg" %}" alt="Git" /></a>
+          <a data-wow-delay=".7s" class="wow fadeInUp" target="_blank" href="https://jquery.com/"><img src="{% static "imgs/jquery-white.svg" %}" alt="JQuery" /></a>
+          <a data-wow-delay=".8s" class="wow fadeInUp" target="_blank" href="https://azure.microsoft.com/"><img src="{% static "imgs/microsoft-windows-white.svg" %}" alt="Azure" /></a>
+          <a data-wow-delay=".9s" class="wow fadeInUp" target="_blank" href="https://www.mysql.com/"><img src="{% static "imgs/mysql-white.svg" %}" alt="MySQL" /></a>
+          <a data-wow-delay="1s" class="wow fadeInUp" target="_blank" href="https://www.python.org/"><img src="{% static "imgs/python-white.svg" %}" alt="Python" /></a>
+          <a data-wow-delay="1.1s" class="wow fadeInUp" target="_blank" href="http://materializecss.com/"><img src="{% static "imgs/materialize-white.svg" %}" alt="Materialize" /></a>
+          <p> а также:
+            <a data-wow-delay="1.2s" class="wow fadeInUp" target="_blank" href="https://inkscape.org/ru/">Inkscape,</a>
+            <a data-wow-delay="1.3s" class="wow fadeInUp" target="_blank" href="https://gionkunz.github.io/chartist-js/">Chartist.js,</a>
+            <a data-wow-delay="1.4s" class="wow fadeInUp" target="_blank" href="http://github.hubspot.com/offline/docs/welcome/">Offline.js,</a>
+            <a data-wow-delay="1.5s" class="wow fadeInUp" target="_blank" href="http://outdatedbrowser.com/ru">OutdatedBrowser.js,</a>
+            <a data-wow-delay="1.6s" class="wow fadeInUp" target="_blank" href="http://fezvrasta.github.io/snackbarjs/">Snackbar.js,</a>
+            <a data-wow-delay="1.7s" class="wow fadeInUp" target="_blank" href="https://github.com/matthieua/WOW">WOW.js,</a>
+            <a data-wow-delay="1.8s" class="wow fadeInUp" target="_blank" href="http://hammerjs.github.io/">Hammer.js,</a>
+            <a data-wow-delay="1.9s" class="wow fadeInUp" target="_blank" href="https://github.com/daneden/animate.css">Animate.css,</a>
+            <a data-wow-delay="2s" class="wow fadeInUp" target="_blank" href="https://fezvrasta.github.io/bootstrap-material-design/">Material Design for Bootstrap,</a>
+            <a data-wow-delay="2.1s" class="wow fadeInUp" target="_blank" href="https://www.google.com/fonts">Google Fonts,</a>
+            <a data-wow-delay="2.2s" class="wow fadeInUp" target="_blank" href="https://design.google.com/icons/">Google Material Icons,</a>
+            <a data-wow-delay="2.3s" class="wow fadeInUp" target="_blank" href="https://github.com/rtheunissen/md-preloader">Md-preloader,</a>
+            <a data-wow-delay="2.4s" class="wow fadeInUp" target="_blank" href="https://twitter.github.io/typeahead.js/">Twitter Typeahead,</a>
+            <a data-wow-delay="2.5s" class="wow fadeInUp" target="_blank" href="http://fontello.com/">Fontello</a>
+          </p>
         </div>
       </div>
     </div>
     <div class="footer-copyright">
       <div class="container">
-        <a class="grey-text text-lighten-3" href="mailto:gogamwar@gmail.com">Нашли ошибку?</a>
-        <a class="grey-text text-lighten-4 right" href="http://mtuci.ru/">Сайт МТУСИ</a>
+        <a data-wow-delay=".3s" class="wow fadeInUp grey-text text-lighten-3" href="mailto:gogamwar@gmail.com?subject=Ошибка на странице {{request.path}}{% if request.user.is_authenticated %} ({{request.user.last_name}} {{request.user.first_name}}){% endif %}">Нашли ошибку?</a>
+        <a data-wow-delay=".3s" class="wow fadeInUp grey-text text-lighten-4 right" href="http://mtuci.ru/">Сайт МТУСИ</a>
       </div>
     </div>
   </footer>
@@ -135,6 +213,7 @@
   <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/js/materialize.min.js"></script>
   <script type="text/javascript" src="{% static "js/outdatedbrowser.min.js" %}" charset="utf-8"></script>
+  <script type="text/javascript" src="{% static "js/wow.min.js" %}"></script>
   <script type="text/javascript" src="{% static "js/manage_template.js" %}"></script>
   {% block js %}{% endblock js %}
 </body>

@@ -32,7 +32,10 @@ def error500(request):
 
 @login_required
 def steward(request):
-    if not request.user.is_steward or not request.user.is_active:
+    if not request.user.is_active or \
+       (not request.user.is_admin and \
+       not request.user.is_deanery and \
+       not request.user.is_steward):
         raise PermissionDenied
     context = {}
     steward = request.user
@@ -43,7 +46,7 @@ def steward(request):
     if today > datetime.date(today.year, 5, 31) and \
        today < datetime.date(today.year, 9, 1):
        context['not_study_time'] = True
-    if today <= datetime.date(today.year, 12, 31):
+    if today <= datetime.date(today.year, 12, 31) and today >= datetime.date(today.year, 9, 1):
         # Первый семестр
         semester = False
     else:
@@ -59,7 +62,7 @@ def steward(request):
     # Получаем номера всех недель из данного семестра
     weeks = [sw['number'] for sw in StudyWeek.objects.filter(startStudyYear=startStudyYear, semester=semester).values('number')]
     # Находим ближайшую неделю к текущей
-    activeWeek = 0
+    activeWeek = weeks[0]
     for week in weeks:
         if week <= nowWeek and week > activeWeek:
             activeWeek = week
@@ -71,3 +74,7 @@ def steward(request):
         context['next_study_year'] = startStudyYear + 1
         context['semester'] = int(semester) + 1
     return render(request, 'app/steward.html', context)
+
+def index(request):
+    context = {}
+    return render(request, 'app/index.html', context)

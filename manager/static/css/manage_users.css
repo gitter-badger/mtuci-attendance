@@ -1,0 +1,45 @@
+#users-search {
+  margin-bottom: 325px !important;
+}
+footer.page-footer {
+  margin: 0 !important;
+}
+span.twitter-typeahead {
+  width: 100%;
+  background-color: #009688 !important;
+}
+.tt-menu {
+  background: #009688;
+  width: 100%;
+  color: white;
+  box-shadow: rgba(0, 0, 0, 0.4) 0px 10px 15px;
+}
+.tt-suggestion {
+  padding: 20px 10px 20px 40px;
+  font-size: 2.5vh;
+}
+.tt-cursor {
+  background: rgba(0,0,0,.2);
+}
+.tt-input {
+  color: white;
+  margin: 10px 10px 10px 40px !important;
+  border: none !important;
+  font-size: 2.5vh !important;
+}
+.tt-input:focus {
+  border-bottom: none !important;
+  box-shadow: none !important;
+}
+.tt-hint {
+  color: rgba(255, 255, 255, 0.5);
+  top: 10px !important;
+  left: 40px !important;
+  font-size: 2.5vh !important;
+}
+.empty-message {
+  padding: 10px 10px 10px 40px;
+  padding: 20px;
+  text-align: center;
+  font-size: 2.5vh;
+}

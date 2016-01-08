@@ -1,10 +1,3 @@
-function supports_html5_storage() {
-  try {
-    return 'localStorage' in window && window['localStorage'] !== null;
-} catch (e) {
-    return false;
-  }
-}
 function uploadFromHoursInput() {
     displayAttMsg('preloader', $(this).data('attendance-id'));
     var hoursData = $.getJSON('/ajax/change_attendance_hours/',{
@@ -61,14 +54,16 @@ function displayAttMsg(msg, attId) {
   }
 }
 function generateGroupList(list) {
-  function generateItem(attendance, tabindex) {
-    return '<div class="list-group-item"><div class="row-action-primary">' +
+  function generateItem(attendance, tabindex, item_class) {
+    return '<div class="list-group-item '+item_class+'"><div class="row-action-primary">' +
     '<i class="material-icons">person</i></div><div class="row-content">' +
+    '<div data-user-id="'+attendance.student.id+'" class="action-secondary">'+
+    '<i class="material-icons">info</i></div>'+
     '<h4 class="list-group-item-heading">' + attendance.student.last_name + ' ' +
     attendance.student.first_name + '</h4>' +
     '<p class="list-group-item-text"><input type="number" class="form-control hours"' +
     ' placeholder="Введите кол-во часов" value="' + attendance.hours + '" ' +
-    'data-attendance-id="' + attendance.id + '" min="0" tabindex="'+ ++tabindex +
+    'data-attendance-id="' + attendance.id + '" min="0" tabindex="'+tabindex +
     '"></p></div></div>'
   };
   var result = [];
@@ -79,13 +74,13 @@ function generateGroupList(list) {
     result.push('<div class="list-group group">');
     for (index=0; index<firstHalf; ++index)
     {
-      result.push(generateItem(list[index], index));
+      result.push(generateItem(list[index], index, 'wow fadeInLeft'));
     }
     result.push('</div></div><div class="col-xs-12 col-sm-6">');
     result.push('<div class="list-group group">');
     for (index=firstHalf; index<firstHalf+secondHalf; ++index)
     {
-      result.push(generateItem(list[index], index));
+      result.push(generateItem(list[index], index, 'wow fadeInRight'));
     }
     result.push('</div></div></div>');
   }
@@ -93,7 +88,7 @@ function generateGroupList(list) {
     result.push('<div class="list-group group">');
     for (index=0; index<list.length; ++index)
     {
-      result.push(generateItem(list[index], index));
+      result.push(generateItem(list[index], index, 'wow fadeInLeft'));
     }
     result.push('</div>');
   }
@@ -101,6 +96,9 @@ function generateGroupList(list) {
 }
 function loadWeek(startStudyYear, semester, number) {
   groupDisplayMsg('preloader');
+  $('.group-display .list-group-item .action-secondary').off('click');
+  $('input.hours').off();
+
   var weekData = $.getJSON('/ajax/get_week_group_attendance/',{
                                                 'start_study_year':startStudyYear,
                                                 'semester':semester,
@@ -113,6 +111,9 @@ function loadWeek(startStudyYear, semester, number) {
       $('.group-display').html(generateGroupList(weekData.attendance));
       $.material.init();
       $('input.hours').change(uploadFromHoursInput);
+      $('.group-display .list-group-item .action-secondary').on('click', function(){
+        loadAndDisplayUserInfo($(this).data('user-id'));
+      });
   });
   weekData.error(function(weekData){
       console.error('Week data not loaded');
@@ -153,7 +154,6 @@ $(function(){
     $('ul.weeks-numbers').toggleClass('minimized');
     if (!supports_html5_storage()) {
       console.log("Local Storage doesn't support");
-      return false;
     }
     else {
       if ($('ul.weeks-numbers').hasClass('minimized')) {

@@ -33,7 +33,7 @@ div.group-logo-front, div.group-logo-back {
   position: absolute;
   width: 40vh;
   height: 40vh;
-  border-radius: 150px;
+  border-radius: 100%;
   background: #00B081;
   box-shadow: 0 0 15px rgba(0,0,0,.5);
   text-align: center;
@@ -178,6 +178,7 @@ div.group-display div.list-group-item {
   padding: 20px 25px;
   -webkit-transition: .5s;
           transition: .5s;
+  background: white;
 }
 div.group-display div.list-group-item:hover {
   background: #E5F9F3;
@@ -201,6 +202,7 @@ div.att-msg {
   -webkit-transform: translateY(-50%);
       -ms-transform: translateY(-50%);
           transform: translateY(-50%);
+     -moz-transform: translateY(calc(-100% + 6px)); /* moz обязательно последним */
 }
 div.att-msg i.material-icons {
     font-size: 30px;
@@ -214,23 +216,25 @@ div.att-msg.success {
     color: white;
     width: 56px;
     height: 56px;
-    border-radius: 150px;
+    border-radius: 100%;
     text-align: center;
     -webkit-user-select:none;
        -moz-user-select:none;
         -ms-user-select:none;
             user-select:none;
+    -moz-transform: translateY(calc(-100% + 2px)); /* moz обязательно последним */
 }
 div.att-msg.error {
     background: #F5584F;;
     color: white;
     width: 56px;
     height: 56px;
-    border-radius: 150px;
+    border-radius: 100%;
     text-align: center;
     cursor: pointer;
     -webkit-user-select:none;
        -moz-user-select:none;
         -ms-user-select:none;
             user-select:none;
+  -moz-transform: translateY(calc(-100% + 2px)); /* moz обязательно последним */
 }

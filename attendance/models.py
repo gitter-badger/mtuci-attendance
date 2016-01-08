@@ -71,7 +71,7 @@ class Attendance(models.Model):
         # Каждому студенту соответствует только одна неделя
         unique_together = ('student', 'studyWeek')
         get_latest_by = 'created_at'
-        ordering = ['-studyWeek', '-created_at']
+        ordering = ['studyWeek', '-created_at']
         verbose_name = 'посещение'
         verbose_name_plural = 'посещения'
         index_together = ['studyWeek', 'student']

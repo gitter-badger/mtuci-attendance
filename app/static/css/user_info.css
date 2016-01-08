@@ -1,0 +1,206 @@
+@media only screen and (max-width: 600px) {
+  .user-info {
+    max-width: 100%;
+  }
+}
+@media only screen and (max-width: 992px) {
+  .user-info {
+    max-width: 85%;
+  }
+}
+@media only screen and (min-width: 992px) {
+  .user-info {
+    max-width: 75%;
+  }
+}
+.alpha-bg {
+  position: fixed;
+  background: rgba(0,0,0,.4);
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  display: none;
+  z-index: 1100;
+  will-change: opacity;
+}
+.user-info {
+  position: fixed;
+  top: 10%;
+  bottom: 10%;
+  height: 80%;
+  left: 0;
+  right: 0;
+  z-index: 1101;
+  background: white;
+  margin: auto;
+  box-shadow: 0 0 25px rgba(0,0,0,.4);
+  -webkit-transition: 2s;
+          transition: 2s;
+  visibility: hidden;
+  will-change: transform;
+  -webkit-transform: perspective(1000px) scale(0) rotateY(-180deg);
+          transform: perspective(1000px) scale(0) rotateY(-180deg);
+  opacity: 0;
+  overflow: hidden;
+}
+.user-info.active {
+  -webkit-transform: perspective(1000px) scale(1) rotateY(0deg);
+          transform: perspective(1000px) scale(1) rotateY(0deg);
+  opacity: 1;
+  visibility: visible;
+}
+.user-info header {
+  width: 100%;
+  padding: 20px;
+  font-size: 6vh;
+  font-weight: 100;
+  font-family: Roboto Condensed, Roboto, sans-serif;
+  color: white;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
+}
+.user-info .close {
+  position: absolute;
+  right: 2%;
+  top: 2%;
+  -webkit-transition: .5s;
+          transition: .5s;
+  z-index: 1111;
+  cursor: pointer;
+  color: rgba(255,255,255,.6);
+}
+.user-info .close i {
+  -webkit-transform: rotateZ(0deg);
+          transform: rotateZ(0deg);
+  will-change: transform;
+  -webkit-transition: .5s;
+          transition: .5s;
+}
+.user-info .close i:hover {
+  -webkit-transform: rotateZ(90deg);
+          transform: rotateZ(90deg);
+}
+.user-info .close:hover {
+  color: rgba(255,255,255,1);
+}
+.user-info .content {
+  max-width: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
+  max-height: calc(100% - 8.8vh - 90px);
+  scrollbar-base-color: #1980D2;
+  scrollbar-arrow-color: #1980D2;
+}
+.user-info .content::-webkit-scrollbar-thumb {
+  background: #1980D2;
+}
+.user-info .user-preloader {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  background: whitesmoke;
+  z-index: 11;
+}
+.user-info .user-preloader .preloader-wrapper {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin: -32px;
+}
+.user-info .error {
+  position: absolute;
+  z-index: 1110;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  cursor: pointer;
+  display: none;
+}
+.user-info .error i {
+  position: absolute;
+  color: rgba(255,255,255,0.8);
+  font-size: 30vh;
+  -webkit-transform: translate(-50%, -50%);
+      -ms-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
+  top: 50%;
+  cursor: pointer;
+  -webkit-transition: .5s;
+          transition: .5s;
+}
+.user-info .error:hover i {
+  color: rgba(255,255,255,1);
+}
+.user-info .group {
+  background: rgb(25, 128, 210);
+  text-align: center;
+  padding: 10px;
+  font-size: 2.8vh;
+  color: rgba(255, 255, 255, 0.7);
+  font-weight: 100;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
+}
+.user-info .not-student {
+  width: 100%;
+  text-align: center;
+  background: #0BAF55;
+  padding: 30px;
+  display: none;
+  height: calc(100% - 6vh - 40px);
+}
+.user-info .not-student i {
+  font-size: 15vh;
+  color: rgba(255, 255, 255, 0.84);
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  -webkit-transform: translate(-50%, -25%);
+      -ms-transform: translate(-50%, -25%);
+          transform: translate(-50%, -25%);
+}
+.user-info .statistics-charts {
+  min-height: 200px;
+  background: #FBFBFB;
+}
+.user-info .statistics-charts .charts-control {
+  width: 100%;
+  background: #2A8FE0;
+  text-align: center;
+}
+.user-info .statistics-charts .charts-control a {
+  color: rgba(255, 255, 255, 0.75);
+  cursor: pointer;
+}
+.user-info .statistics-charts .charts-control a:hover {
+  color: rgba(255, 255, 255, 0.95);
+}
+.user-info .statistics-charts .charts-control a.active {
+  color: rgba(255, 255, 255, 1);
+  background: #2196F3;
+}
+.user-info .chart-table table * {
+    padding: 20px;
+}
+.blue {
+    background-color: #2196F3 !important;
+}
+.red {
+    background-color: #F44336 !important;
+}
+.valign-wrapper {
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: -webkit-box;
+    display: flex;
+    -webkit-align-items: center;
+    -ms-flex-align: center;
+    -webkit-box-align: center;
+            align-items: center;
+}
