@@ -92,13 +92,14 @@
 </head>
 <body>
   <h1>MTUCI Attendance Index</h1>
-  <h4>Links:</h4>
+  <hr>
+  <h2>Links:</h2>
   <ul>
     <li><a href="{% url "attendance" %}">Attendance</a></li>
     <li><a href="{% url "steward" %}">Steward</a></li>
     <li><a href="{% url "manage:main" %}">Manage</a></li>
   </ul>
-  <h4>Config:</h4>
+  <h2>Config:</h2>
   <ul>
     <li><strong>Host:</strong> mtuci.azurewebsites.net</li>
     <li><strong>Debug:</strong> True <small>TODO: don't forget to test with production settings</small></li>
@@ -107,8 +108,36 @@
   </ul>
   <br>
   <br>
-  <p>
-    Скоро здесь тоже что-нибудь будет :)
-  </p>
+  {% if lastChanges %}
+    <h2>Последние изменения</h2>
+    <table>
+      <thead>
+        <th>
+          Время
+        </th>
+        <th>
+          Хэш коммита
+        </th>
+        <th>
+          Описание
+        </th>
+      </thead>
+      <tbody>
+        {% for change in lastChanges %}
+          <tr>
+            <td>
+              {{change.changeDate}}
+            </td>
+            <td>
+              {{change.commit}}
+            </td>
+            <td>
+              {{change.description}}
+            </td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  {% endif %}
 </body>
 </html>

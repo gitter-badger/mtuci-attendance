@@ -5,6 +5,8 @@ from django.template import RequestContext
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
 from attendance.models import StudyWeek
+from app.models import LastChange
+from django.core.cache import cache
 
 def error403(request):
     response = render_to_response('403.html', {},
@@ -75,6 +77,12 @@ def steward(request):
         context['semester'] = int(semester) + 1
     return render(request, 'app/steward.html', context)
 
+
 def index(request):
-    context = {}
+    if cache.get('lastChanges'):
+        lastChanges = cache.get('lastChanges')
+    else:
+        lastChanges = LastChange.objects.all()[:5]
+        cache.set('lastChanges', lastChanges, 60*30)
+    context = {'lastChanges': lastChanges}
     return render(request, 'app/index.html', context)
