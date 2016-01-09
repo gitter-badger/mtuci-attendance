@@ -150,6 +150,7 @@ p {
   background: transparent;
 }
 .parallax-container svg {
+  width: auto;
   max-height: 40vh;
   max-width: 100vw;
   margin-top: 20vh;
@@ -217,7 +218,7 @@ footer.page-footer {
 }
 .chart-card header h5 {
   margin: 0;
-  padding: 20px 0;
+  padding: 20px calc(3vw + 30px) 20px 10px;
   font-weight: 100;
   font-family: Roboto Condensed;
   background: rgba(0, 0, 0, 0.3);

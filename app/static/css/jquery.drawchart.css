@@ -35,7 +35,7 @@ div.chart-card {
 div.chart-card .reload {
   position: absolute;
   z-index: 9;
-  right: 30px;
+  right: 3vw;
   top: 20px;
 }
 div.chart-card .reload i {
@@ -110,15 +110,17 @@ div.chart-card .full-chart-desc.active {
 }
 .chartist-tooltip-meta {
   font-family: 'Roboto Condensed';
-  font-size: 16px;
+  font-size: 2.1vh;
 }
 .chartist-tooltip-value {
   font-weight: 300;
+  font-size: 1.8vh;
 }
 .chart-card .chart-wrapper {
   padding: 90px 50px 10px;
   width: 100%;
   z-index: 7;
+  position: relative;
 }
 div.chart-card .chart {
   width: 100%;
