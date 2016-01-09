@@ -204,3 +204,11 @@
     -webkit-box-align: center;
             align-items: center;
 }
+.user-md-wrapper {
+  position bsolute;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+      -ms-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
+}
