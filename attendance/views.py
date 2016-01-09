@@ -66,7 +66,7 @@ def generateSchedule(weeksNumbersList, semester, startStudyYear):
 def createWeeks(request):
     ''' Создаёт требуемые недели '''
     # Проверка, что запрос через ajax
-    if not request.is_ajax():
+    if not request.is_ajax() and not request.user.is_admin:
         raise PermissionDenied
     # Проверка прав
     if (not request.user.is_admin and not request.user.is_deanery) or \
@@ -127,7 +127,7 @@ def getWeekGroupAttendance(request):
         3) number - номер недели в семестре
     '''
     # Проверка, что запрос через ajax
-    if not request.is_ajax():
+    if not request.is_ajax() and not request.user.is_admin:
         raise PermissionDenied
     # Проверка прав
     if (not request.user.is_admin and not request.user.is_deanery and \
@@ -184,7 +184,7 @@ def changeAttendanceHours(request):
     и возвращает записанное число
     '''
     # Проверка, что запрос через ajax
-    if not request.is_ajax():
+    if not request.is_ajax() and not request.user.is_admin:
         raise PermissionDenied
     # Проверка прав
     if (not request.user.is_admin and not request.user.is_deanery and not request.user.is_steward) or \
@@ -207,7 +207,7 @@ def changeAttendanceHours(request):
 def getExistingWeeks(request):
     '''Возвращает все недели в данном семестре в данном году'''
     # Проверка, что запрос через ajax
-    if not request.is_ajax():
+    if not request.is_ajax() and not request.user.is_admin:
         raise PermissionDenied
     # Проверка прав
     if (not request.user.is_admin and not request.user.is_deanery and not request.user.is_steward) or \
@@ -228,7 +228,7 @@ def getExistingWeeks(request):
 def deleteWeeksById(request):
     '''Удаляет неделю по полученному id'''
     # Проверка, что запрос через ajax
-    if not request.is_ajax():
+    if not request.is_ajax() and not request.user.is_admin:
         raise PermissionDenied
     # Проверка прав
     if (not request.user.is_admin and not request.user.is_deanery) or \
@@ -270,7 +270,7 @@ def getStatistics(request, target):
     #TODO: всё-таки раскидать по функциям, хотя для того, чтобы избавиться от
     # неральных уровней вложенности
     # Проверка, что запрос через ajax
-    if not request.is_ajax():
+    if not request.is_ajax() and not request.user.is_admin:
         raise PermissionDenied
     if target == 'global':
         if cache.get('get_statistics_global'):
