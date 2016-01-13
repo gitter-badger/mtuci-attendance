@@ -6,7 +6,7 @@ from DjangoWebProject import private
 from os import path
 PROJECT_ROOT = path.dirname(path.abspath(path.dirname(__file__)))
 
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = (
     'localhost',

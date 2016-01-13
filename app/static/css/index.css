@@ -226,7 +226,7 @@ nav {
   position: absolute;
   top: 0;
   left: 0;
-  z-index: 2;
+  z-index: 4;
   -webkit-transform: perspective(800px) rotateY(60deg) translateX(-150%);
           transform: perspective(800px) rotateY(60deg) translateX(-150%);
   padding: 0;
