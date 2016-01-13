@@ -1,0 +1,252 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   id="svg3950"
+   viewBox="0 0 1256.8297 2405.6649"
+   height="2405.6"
+   width="1256.9"
+   version="1.1"
+   inkscape:version="0.91 r13725"
+   sodipodi:docname="nexus-5-optimized.svg">
+  <sodipodi:namedview
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1"
+     objecttolerance="10"
+     gridtolerance="10"
+     guidetolerance="10"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:window-width="1366"
+     inkscape:window-height="745"
+     id="namedview36"
+     showgrid="false"
+     inkscape:zoom="0.19620884"
+     inkscape:cx="1204.7733"
+     inkscape:cy="1314.8058"
+     inkscape:window-x="-8"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg3950" />
+  <title
+     id="title5886">Nexus 5</title>
+  <defs
+     id="defs3952">
+    <filter
+       id="filter4916"
+       style="color-interpolation-filters:sRGB"
+       height="1.6"
+       width="1.0667"
+       y="-0.3"
+       x="-.033333">
+      <feGaussianBlur
+         id="feGaussianBlur4918"
+         stdDeviation="11.34367" />
+    </filter>
+  </defs>
+  <g
+     id="layer2-5"
+     transform="translate(-2410.9735,774.72827)"
+     style="fill:#000000;fill-opacity:1">
+    <rect
+       style="fill:#000000;fill-opacity:1"
+       id="rect6502-8"
+       ry="0"
+       height="1920"
+       width="1080"
+       y="-580.84003"
+       x="2494.8" />
+  </g>
+  <g
+     id="layer1"
+     transform="translate(-2323.4 772.65)">
+    <g
+       id="g6488"
+       transform="translate(1430.4)">
+      <ellipse
+         id="ellipse6490"
+         fill-opacity=".48627"
+         rx="408.37"
+         ry="45.375"
+         transform="matrix(1.4427,0,0,1.4092,4673.2,2005.1)"
+         filter="url(#filter4916)"
+         cy="-336.64"
+         cx="-2184.7" />
+      <path
+         id="path6492"
+         fill="#161616"
+         d="m1514.9-772.65c-143.77 0.18556-287.4 5.5835-431.16 17.471 0 0-141.94 7.3973-150.48 92.64v241.52 1856.2c3.4015 91.869 79.595 126 337.77 132.09 170.77 4.0259 331.14 3.7129 497.86 0 258.19-5.7501 334.91-40.215 338.31-132.09v-1856.2-241.52c-6.2721-90.854-150.48-92.64-150.48-92.64-143.77-11.887-287.91-17.471-431.69-17.471zm-536.52 195.48h1080v1920h-1080z" />
+      <ellipse
+         id="ellipse6494"
+         style="color:#000000"
+         fill-opacity=".18846"
+         rx="8.5178"
+         ry="8.7721"
+         cy="-657.9"
+         cx="1123"
+         fill="#fff" />
+      <ellipse
+         id="ellipse6496"
+         style="color:#000000"
+         fill-opacity=".18846"
+         rx="24.329"
+         ry="24.328"
+         cy="-665.26"
+         cx="1521.2"
+         fill="#fff" />
+      <rect
+         id="rect6498"
+         height="152.93"
+         width="11.274"
+         y="-480.16"
+         x="2104.1"
+         fill="#161616" />
+      <rect
+         id="rect6500"
+         height="370.25"
+         width="13.603"
+         y="-334.48"
+         x="924.33"
+         fill="#161616" />
+    </g>
+  </g>
+  <g
+     id="layer2"
+     transform="translate(-2409.4 776.35)">
+    <rect
+       id="rect6502"
+       ry="0"
+       height="1920"
+       width="1080"
+       y="-580.84"
+       x="2494.8"
+       fill="#8c9696" />
+  </g>
+  <g
+     id="layer12"
+     transform="translate(-1430.5 .05)">
+    <rect
+       id="rect5884"
+       fill-opacity=".37255"
+       ry="0"
+       height="145.66"
+       width="1080.1"
+       stroke="#000"
+       y="1970.3"
+       x="1516"
+       stroke-width=".70915" />
+  </g>
+  <g
+     style="fill:none;stroke:#ffffff"
+     transform="translate(-2323.347,772.6826)"
+     id="g6454">
+    <g
+       style="stroke-width:0.1938px"
+       transform="matrix(21.801,0,0,21.801,-643.62,-1909.3)"
+       id="g5096">
+      <path
+         inkscape:connector-curvature="0"
+         d="m 82.552,145.56 3.5202,0.0318 c 0.94031,0.0134 0.80091,1.3324 -0.01211,1.3324 l -1.7079,0.0121"
+         id="path5098">
+        <title
+           id="title5100">Android Buttons</title>
+      </path>
+      <path
+         inkscape:connector-curvature="0"
+         d="m 83.19,144.83 -0.63743,0.73134 0.62532,0.85544"
+         id="path5102">
+        <title
+           id="title5104">Android Buttons</title>
+      </path>
+    </g>
+    <path
+       style="stroke-width:4.5243001px"
+       inkscape:connector-curvature="0"
+       d="m 1460.9,1299.4 105.75,0.5649 0,-33.084 -53.438,-20.642 -52.313,22.056 z"
+       id="path5110">
+      <title
+         id="title5112">Android Buttons</title>
+    </path>
+    <path
+       style="stroke-width:4.39720011px"
+       inkscape:connector-curvature="0"
+       d="m 1801.5,1248.4 76.126,0.2746 0,32.703 m -99.215,-17.589 79.706,0 0,30.506 -79.706,0 z"
+       id="path5106">
+      <title
+         id="title5108">Android Buttons</title>
+    </path>
+  </g>
+  <path
+     style="fill:#ffffff;fill-opacity:0.14500002;fill-rule:evenodd"
+     inkscape:connector-curvature="0"
+     d="m 1165.4,2115.55 -336.66,-3.139 -269.95,-1916.9 606.61,-3e-5 z"
+     id="path6524" />
+  <g
+     style="fill:none;stroke:#ffffff;stroke-width:6;stroke-linecap:round"
+     transform="matrix(1.2171,0,0,1.2171,-3074.36,490.24)"
+     id="g6543">
+    <circle
+       r="18.688"
+       cx="3040.3999"
+       cy="1278.3"
+       id="path6537" />
+    <path
+       inkscape:connector-curvature="0"
+       d="m 2736.6,1294.3 -27.847,-16.078 27.847,-16.078 z"
+       id="path6539" />
+    <rect
+       height="37.856998"
+       x="3340.8"
+       width="37.856998"
+       y="1259.3"
+       id="rect6541" />
+  </g>
+  <metadata
+     id="metadata42">
+    <rdf:RDF>
+      <cc:Work>
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <cc:license
+           rdf:resource="http://creativecommons.org/publicdomain/zero/1.0/" />
+        <dc:publisher>
+          <cc:Agent
+             rdf:about="http://openclipart.org/">
+            <dc:title>Openclipart</dc:title>
+          </cc:Agent>
+        </dc:publisher>
+        <dc:title>Nexus 5</dc:title>
+      </cc:Work>
+      <cc:License
+         rdf:about="http://creativecommons.org/publicdomain/zero/1.0/">
+        <cc:permits
+           rdf:resource="http://creativecommons.org/ns#Reproduction" />
+        <cc:permits
+           rdf:resource="http://creativecommons.org/ns#Distribution" />
+        <cc:permits
+           rdf:resource="http://creativecommons.org/ns#DerivativeWorks" />
+      </cc:License>
+    </rdf:RDF>
+  </metadata>
+  <g
+     id="layer12-6"
+     transform="matrix(1.0002514,0,0,0.38077876,-1431.1363,-556.29241)">
+    <rect
+       style="fill-opacity:0.37255004;stroke:#000000;stroke-width:0.70915002"
+       id="rect5884-8"
+       ry="0"
+       height="145.66"
+       width="1080.1"
+       y="1970.3"
+       x="1516" />
+  </g>
+</svg>

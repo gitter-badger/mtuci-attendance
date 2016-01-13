@@ -7,6 +7,8 @@
     <!--[if IE]><script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
     <title>{% block title %}{% endblock title %} | МТУСИ</title>
     {% load staticfiles %}
+    {% load get_settings %}
+    <base href="{% get_settings "SITE_URL" %}" target="_blank">
 
     <meta name="keywords" content="МТУСИ, посещаемость, статистика, главная, Московский, технический, университет, связи, информатики">
     <meta name="robots" content="index,follow">
@@ -24,9 +26,9 @@
     <meta name="msapplication-tooltip" content="Приложение по контролю за посещаемостью МТУСИ">
     <meta name="msapplication-navbutton-color" content="#009688">
 
-    <link rel="index" title="Посещаемость МТУСИ" href="{% url "index" %}">
-    <meta name="application-url" content="{% url "index" %}">
-    <meta name="msapplication-starturl" content="{% url "index" %}">
+    <link rel="index" title="Посещаемость МТУСИ" href="{% get_settings "SITE_URL" %}">
+    <meta name="application-url" content="{% get_settings "SITE_URL" %}">
+    <meta name="msapplication-starturl" content="{% get_settings "SITE_URL" %}">
 
     <meta name="geo.position" content="55.784365;37.482593">
     <meta name="ICBM" content="55.784365, 37.482593">

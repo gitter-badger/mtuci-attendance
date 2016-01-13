@@ -3,10 +3,16 @@
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1, maximum-scale=1">
   <!--[if IE]><script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
   <title>Главная | МТУСИ</title>
+  {% load get_settings %}
   {% load staticfiles %}
+  <base href="{% get_settings "SITE_URL" %}" target="_blank">
+
+  <link rel="stylesheet" href="{% static "css/preloader.css" %}">
+
+  <meta name="msapplication-tap-highlight" content="no" />
 
   <meta name="description" content="Главная страница приложения по контролю за посещаемостью студентов МТУСИ">
   <meta name="keywords" content="МТУСИ, посещаемость, статистика, главная, Московский, технический, университет, связи, информатики">
@@ -25,9 +31,9 @@
   <meta name="msapplication-tooltip" content="Приложение по контролю за посещаемостью МТУСИ">
   <meta name="msapplication-navbutton-color" content="#009688">
 
-  <link rel="index" title="Посещаемость МТУСИ" href="{% url "index" %}">
-  <meta name="application-url" content="{% url "index" %}">
-  <meta name="msapplication-starturl" content="{% url "index" %}">
+  <link rel="index" title="Посещаемость МТУСИ" href="{% get_settings "SITE_URL" %}">
+  <meta name="application-url" content="{% get_settings "SITE_URL" %}">
+  <meta name="msapplication-starturl" content="{% get_settings "SITE_URL" %}">
 
   <meta name="geo.position" content="55.784365;37.482593">
   <meta name="ICBM" content="55.784365, 37.482593">
@@ -66,7 +72,7 @@
   <meta name="twitter:description" content="Приложения для контроля за посещаемостью студентов МТУСИ">
   <meta name="twitter:creator" content="МТУСИ">
   <meta name="twitter:image:src" content="{% static "imgs/og_placeholder.jpg" %}">
-  <meta name="twitter:domain" content="{% url "index" %}">
+  <meta name="twitter:domain" content="{% get_settings "SITE_URL" %}">
 
   <meta name="title" content="Посещаемость МТУСИ">
   <link rel="image_src" href="{% static "imgs/og_placeholder.jpg" %}">
@@ -85,59 +91,561 @@
   <link rel="icon" type="image/png" sizes="96x96" href="{% static "icons/favicon-96x96.png" %}">
   <link rel="icon" type="image/png" sizes="16x16" href="{% static "icons/favicon-16x16.png" %}">
   <link rel="manifest" href="{% static "icons/manifest.json" %}">
-  <meta name="msapplication-TileColor" content="#009688">
+  <meta name="msapplication-TileColor" content="#ff9800">
   <meta name="msapplication-TileImage" content="{% static "icons/ms-icon-144x144.png" %}">
-  <meta name="theme-color" content="#009688">
+  <meta name="theme-color" content="#ff9800">
+
+
+  <!-- Material Design fonts -->
+  <!--<link href='https://fonts.googleapis.com/css?family=Roboto:400,300,500,700&subset=latin,cyrillic' rel='stylesheet' type='text/css'>-->
+  <link rel="stylesheet" href="{% static "css/roboto.css" %}">
+  <!--<link href='https://fonts.googleapis.com/css?family=Roboto+Condensed:400,300&subset=latin,cyrillic' rel='stylesheet' type='text/css'>-->
+  <link rel="stylesheet" href="{% static "css/roboto_condensed.css" %}">
+  <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/css/materialize.min.css">
+
+  <link rel="stylesheet" href="{% static "css/outdatedbrowser.min.css" %}" charset="utf-8">
+
+  <link rel="stylesheet" href="{% static "css/animate.min.css" %}" charset="utf-8">
+
+  <link rel="stylesheet" type="text/css" href="{% static "css/mockup2.css" %}" />
+  <script src="{% static "js/modernizr.custom.js" %}"></script>
+
+
+  <link rel="stylesheet" href="{% static "css/index.css" %}" charset="utf-8">
 
 </head>
 <body>
-  <h1>MTUCI Attendance Index</h1>
-  <hr>
-  <h2>Links:</h2>
-  <ul>
-    <li><a href="{% url "attendance" %}">Attendance</a></li>
-    <li><a href="{% url "steward" %}">Steward</a></li>
-    <li><a href="{% url "manage:main" %}">Manage</a></li>
+
+  <noscript>
+      <div class="no_js container">
+        <h1>Для работы необходимо <a href="http://www.enable-javascript.com/ru/"> включить JavaScript</a>.</h1>
+      </div>
+  </noscript>
+  <div class="preloader">
+      <div class="md-preloader"><svg xmlns="http://www.w3.org/2000/svg" version="1.1" height="75" width="75" viewbox="0 0 75 75"><circle cx="37.5" cy="37.5" r="33.5" stroke-width="3"></circle></svg></div>
+  </div>
+  <div id="outdated">
+   <h6>Ваш браузер устарел!</h6>
+   <p>
+      Обновите ваш браузер для правильного отображения этого сайта.
+      <a id="btnUpdateBrowser" href="http://outdatedbrowser.com/">Обновить браузер </a>
+   </p>
+   <p class="last"><a href="#" id="btnCloseUpdateBrowser" title="Закрыть">&times;</a></p>
+  </div>
+
+  <div class="ie">
+    <p class="title">Кажется, вы используете Internet Explorer.</p>
+    <p>
+      Сайт может отображаться неправильно, а некоторый функционал может быть недоступен.<br/>
+      Для наилучшего результата используйте один из современных браузеров на движке Blink или Webkit <br/>
+      Закройте данное придупреждение, если хотите, чтобы оно больше не показывалось (если браузер поддерживает local storage)
+    </p>
+    <div class="close">x</div>
+  </div>
+
+
+<nav>
+  <ul class="menu">
+    <li class="active-menu-link"><a href="#!">Главная <small>(вы здесь)</small></a></li>
+    <li><a href="{% url "attendance" %}">Посещаемость</a></li>
+    {% if request.user.is_authenticated %}
+    <li class="user">{{request.user.last_name}} {{request.user.first_name}}</li>
+    {% if request.user.is_steward %}
+    <li><a href="{% url "steward" %}">Интерфейс старосты</a></li>
+    {% endif %}
+    {% if request.user.is_deanery %}
+    <li><a href="{% url "manage:main" %}">Панель управления</a></li>
+    {% endif %}
+    {% if request.user.is_admin %}
+    <li><a href="{% url "admin:index" %}">Панель администратора</a></li>
+    {% endif %}
+    {% else %}
+    <li class="user"><a href="{% url "login" %}">Войти</a></li>
+    {% endif %}
   </ul>
-  <h2>Config:</h2>
-  <ul>
-    <li><strong>Host:</strong> mtuci.azurewebsites.net</li>
-    <li><strong>Debug:</strong> True <small>TODO: don't forget to test with production settings</small></li>
-    <li><strong>Caching:</strong> locmem.LocMemCache</li>
-    <li><strong>DB:</strong> MySQL ClearDB</li>
-  </ul>
-  <br>
-  <br>
-  {% if lastChanges %}
-    <h2>Последние изменения</h2>
-    <table>
-      <thead>
-        <th>
-          Время
-        </th>
-        <th>
-          Хэш коммита
-        </th>
-        <th>
-          Описание
-        </th>
-      </thead>
-      <tbody>
-        {% for change in lastChanges %}
-          <tr>
-            <td>
-              {{change.changeDate}}
-            </td>
-            <td>
-              {{change.commit}}
-            </td>
-            <td>
-              {{change.description}}
-            </td>
-          </tr>
-        {% endfor %}
-      </tbody>
-    </table>
+  {% if request.user.is_authenticated %}
+    <ul class="user-actions">
+      <li><a href="{% url "logout" %}">Выйти</a></li>
+    </ul>
   {% endif %}
+
+</nav>
+
+<div class="nav-btn">
+  <i class="material-icons">menu</i>
+</div>
+
+
+
+<header class="page-header">
+  <h1 class="animated zoomInDown">ПОСЕЩАЕМОСТЬ</h1>
+  <h6 class="animated flipInX">МТУСИ</h6>
+  <h4 class="animated zoomInUp">МОСКОВСКИЙ ТЕХНИЧЕСКИЙ УНИВЕРСИТЕТ СВЯЗИ И ИНФОРМАТИКИ</h4>
+  <br>
+  <a class="waves-effect waves-light btn orange animated zoomIn">ПОЕХАЛИ!</a>
+</header>
+
+<figure class="nexus">
+  <svg
+     xmlns:dc="http://purl.org/dc/elements/1.1/"
+     xmlns:cc="http://creativecommons.org/ns#"
+     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+     xmlns:svg="http://www.w3.org/2000/svg"
+     xmlns="http://www.w3.org/2000/svg"
+     xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+     xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+     id="svg3950"
+     viewBox="0 0 1256.8297 2405.6649"
+     height="2405.6"
+     width="1256.9"
+     version="1.1"
+     inkscape:version="0.91 r13725"
+     sodipodi:docname="nexus-5-optimized.svg">
+    <sodipodi:namedview
+       pagecolor="#ffffff"
+       bordercolor="#666666"
+       borderopacity="1"
+       objecttolerance="10"
+       gridtolerance="10"
+       guidetolerance="10"
+       inkscape:pageopacity="0"
+       inkscape:pageshadow="2"
+       inkscape:window-width="1366"
+       inkscape:window-height="745"
+       id="namedview36"
+       showgrid="false"
+       inkscape:zoom="0.19620884"
+       inkscape:cx="1204.7733"
+       inkscape:cy="1314.8058"
+       inkscape:window-x="-8"
+       inkscape:window-y="-8"
+       inkscape:window-maximized="1"
+       inkscape:current-layer="svg3950" />
+    <title
+       id="title5886">Nexus 5</title>
+    <defs
+       id="defs3952">
+      <filter
+         id="filter4916"
+         style="color-interpolation-filters:sRGB"
+         height="1.6"
+         width="1.0667"
+         y="-0.3"
+         x="-.033333">
+        <feGaussianBlur
+           id="feGaussianBlur4918"
+           stdDeviation="11.34367" />
+      </filter>
+    </defs>
+    <g
+       id="layer2-5"
+       transform="translate(-2410.9735,774.72827)"
+       style="fill:#000000;fill-opacity:1">
+      <rect
+         style="fill:#000000;fill-opacity:1"
+         id="rect6502-8"
+         ry="0"
+         height="1920"
+         width="1080"
+         y="-580.84003"
+         x="2494.8" />
+    </g>
+    <g
+       id="layer1"
+       transform="translate(-2323.4 772.65)">
+      <g
+         id="g6488"
+         transform="translate(1430.4)">
+        <ellipse
+           id="ellipse6490"
+           fill-opacity=".48627"
+           rx="408.37"
+           ry="45.375"
+           transform="matrix(1.4427,0,0,1.4092,4673.2,2005.1)"
+           filter="url(#filter4916)"
+           cy="-336.64"
+           cx="-2184.7" />
+        <path
+           id="path6492"
+           fill="#161616"
+           d="m1514.9-772.65c-143.77 0.18556-287.4 5.5835-431.16 17.471 0 0-141.94 7.3973-150.48 92.64v241.52 1856.2c3.4015 91.869 79.595 126 337.77 132.09 170.77 4.0259 331.14 3.7129 497.86 0 258.19-5.7501 334.91-40.215 338.31-132.09v-1856.2-241.52c-6.2721-90.854-150.48-92.64-150.48-92.64-143.77-11.887-287.91-17.471-431.69-17.471zm-536.52 195.48h1080v1920h-1080z" />
+        <ellipse
+           id="ellipse6494"
+           style="color:#000000"
+           fill-opacity=".18846"
+           rx="8.5178"
+           ry="8.7721"
+           cy="-657.9"
+           cx="1123"
+           fill="#fff" />
+        <ellipse
+           id="ellipse6496"
+           style="color:#000000"
+           fill-opacity=".18846"
+           rx="24.329"
+           ry="24.328"
+           cy="-665.26"
+           cx="1521.2"
+           fill="#fff" />
+        <rect
+           id="rect6498"
+           height="152.93"
+           width="11.274"
+           y="-480.16"
+           x="2104.1"
+           fill="#161616" />
+        <rect
+           id="rect6500"
+           height="370.25"
+           width="13.603"
+           y="-334.48"
+           x="924.33"
+           fill="#161616" />
+      </g>
+    </g>
+    <g
+       id="layer2"
+       transform="translate(-2409.4 776.35)">
+       <image class="screen-1" clip-path="url(#clipping)" height="9630" width="1080" y="-580.84" x="2494.8" xlink:href="{% static "imgs/screen.jpg" %}"/>
+       <image class="screen-2" clip-path="url(#clipping)" height="1920" width="3240" y="-580.84" x="2494.8" xlink:href="{% static "imgs/screen-2.jpg" %}"/>
+       <clipPath id="clipping">
+      <rect
+         id="rect6502"
+         ry="0"
+         height="1920"
+         width="1080"
+         y="-580.84"
+         x="2494.8"
+         fill="#8c9696" />
+       </clipPath>
+    </g>
+    <g
+       id="layer12"
+       transform="translate(-1430.5 .05)">
+      <rect
+         id="rect5884"
+         fill-opacity=".37255"
+         ry="0"
+         height="145.66"
+         width="1080.1"
+         stroke="#000"
+         y="1970.3"
+         x="1516"
+         stroke-width=".70915" />
+    </g>
+    <g
+       style="fill:none;stroke:#ffffff"
+       transform="translate(-2323.347,772.6826)"
+       id="g6454">
+      <g
+         style="stroke-width:0.1938px"
+         transform="matrix(21.801,0,0,21.801,-643.62,-1909.3)"
+         id="g5096">
+        <path
+           inkscape:connector-curvature="0"
+           d="m 82.552,145.56 3.5202,0.0318 c 0.94031,0.0134 0.80091,1.3324 -0.01211,1.3324 l -1.7079,0.0121"
+           id="path5098">
+          <title
+             id="title5100">Android Buttons</title>
+        </path>
+        <path
+           inkscape:connector-curvature="0"
+           d="m 83.19,144.83 -0.63743,0.73134 0.62532,0.85544"
+           id="path5102">
+          <title
+             id="title5104">Android Buttons</title>
+        </path>
+      </g>
+      <path
+         style="stroke-width:4.5243001px"
+         inkscape:connector-curvature="0"
+         d="m 1460.9,1299.4 105.75,0.5649 0,-33.084 -53.438,-20.642 -52.313,22.056 z"
+         id="path5110">
+        <title
+           id="title5112">Android Buttons</title>
+      </path>
+      <path
+         style="stroke-width:4.39720011px"
+         inkscape:connector-curvature="0"
+         d="m 1801.5,1248.4 76.126,0.2746 0,32.703 m -99.215,-17.589 79.706,0 0,30.506 -79.706,0 z"
+         id="path5106">
+        <title
+           id="title5108">Android Buttons</title>
+      </path>
+    </g>
+    <path
+       style="fill:#ffffff;fill-opacity:0.14500002;fill-rule:evenodd"
+       inkscape:connector-curvature="0"
+       d="m 1165.4,2115.55 -336.66,-3.139 -269.95,-1916.9 606.61,-3e-5 z"
+       id="path6524" />
+    <g
+       style="fill:none;stroke:#ffffff;stroke-width:6;stroke-linecap:round"
+       transform="matrix(1.2171,0,0,1.2171,-3074.36,490.24)"
+       id="g6543">
+      <circle
+         r="18.688"
+         cx="3040.3999"
+         cy="1278.3"
+         id="path6537" />
+      <path
+         inkscape:connector-curvature="0"
+         d="m 2736.6,1294.3 -27.847,-16.078 27.847,-16.078 z"
+         id="path6539" />
+      <rect
+         height="37.856998"
+         x="3340.8"
+         width="37.856998"
+         y="1259.3"
+         id="rect6541" />
+    </g>
+    <metadata
+       id="metadata42">
+      <rdf:RDF>
+        <cc:Work>
+          <dc:format>image/svg+xml</dc:format>
+          <dc:type
+             rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+          <cc:license
+             rdf:resource="http://creativecommons.org/publicdomain/zero/1.0/" />
+          <dc:publisher>
+            <cc:Agent
+               rdf:about="http://openclipart.org/">
+              <dc:title>Openclipart</dc:title>
+            </cc:Agent>
+          </dc:publisher>
+          <dc:title>Nexus 5</dc:title>
+        </cc:Work>
+        <cc:License
+           rdf:about="http://creativecommons.org/publicdomain/zero/1.0/">
+          <cc:permits
+             rdf:resource="http://creativecommons.org/ns#Reproduction" />
+          <cc:permits
+             rdf:resource="http://creativecommons.org/ns#Distribution" />
+          <cc:permits
+             rdf:resource="http://creativecommons.org/ns#DerivativeWorks" />
+        </cc:License>
+      </rdf:RDF>
+    </metadata>
+    <g
+       id="layer12-6"
+       transform="matrix(1.0002514,0,0,0.38077876,-1431.1363,-556.29241)">
+      <rect
+         style="fill-opacity:0.37255004;stroke:#000000;stroke-width:0.70915002"
+         id="rect5884-8"
+         ry="0"
+         height="145.66"
+         width="1080.1"
+         y="1970.3"
+         x="1516" />
+    </g>
+  </svg>
+</figure>
+
+<div id="wrap" class="wrap">
+  <div class="mockup">
+    <img class="mockup__img" src="{% static "imgs/mockup2.jpg" %}" />
+    <div class="screen">
+      <ul id="slideshow" class="slideshow">
+        <li class="slideshow__item"><img src="{% static "imgs/Screenshot1.png" %}"/></li>
+        <li class="slideshow__item"><img src="{% static "imgs/Screenshot2.png" %}"/></li>
+        <li class="slideshow__item"><img src="{% static "imgs/Screenshot3.png" %}"/></li>
+        <li class="slideshow__item"><img src="{% static "imgs/Screenshot4.png" %}"/></li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+
+<main>
+
+
+  <section class="slide slide-1">
+    <header>
+      <h4>Адаптивность</h4>
+    </header>
+    <p>
+      Сайт основан на таких фреймворках для адаптивной вёрстки как Twitter Bootstrap и
+      Materialize, используются медиа-запросы и относительные величины.
+      Для максимальной совместимости со всеми современными браузерами (кроме IE)
+      для неполностью поддерживаемых свойств используются вендорные префиксы.
+      А для контроля за жестами на сенсорных устройствах используется Hammer.js
+      <br>
+      Всё это позволяет сайту приемлимо выглядить на большинстве устройств.
+    </p>
+    <div class="next">
+      <i class="material-icons">navigate_next</i>
+    </div>
+  </section>
+  <img class="slide-2" src="{% static "imgs/Django-white.svg" %}" alt="Django" />
+  <section class="slide slide-2">
+    <header>
+      <h4>Освобождённый</h4>
+    </header>
+    <p>
+      Свободный фреймворк для веб-приложений Джанго обеспечивает удобную работу с кэшем,
+      удобную работу с базами данных с поддержкой транзакций и высокий уровень безопасности
+      (шифрование паролей, защита от CSRF, XSS и SQL-инъекций).
+    </p>
+    <div class="next">
+      <i class="material-icons">navigate_next</i>
+    </div>
+  </section>
+  <img class="slide-3" src="{% static "imgs/retina-ready.png" %}" alt="Retina Ready" />
+  <section class="slide slide-3">
+    <header>
+      <h4>Retina Ready</h4>
+    </header>
+    <p>
+      Использование относительных величин vh и vw, иконочных шрифтов и svg позволяет приложению
+      красиво выглядеть даже на мониторах с высокой плотностью пикселей (не только Retina, но
+      и все современные смартфоны с плотностью выше 300 dpi).
+    </p>
+    <div class="next">
+      <i class="material-icons">navigate_next</i>
+    </div>
+  </section>
+
+  <div class="carousel slide-4-carousel">
+    <a class="carousel-item" href="#azure-tests!"><img src="{% static "imgs/azure-1.png" %}"></a>
+    <a class="carousel-item" href="#azure-requests!"><img src="{% static "imgs/azure-2.png" %}"></a>
+    <a class="carousel-item" href="#azure-hardware!"><img src="{% static "imgs/azure-3.png" %}"></a>
+    <a class="carousel-item" href="#azure-data!"><img src="{% static "imgs/azure-4.png" %}"></a>
+  </div>
+  <section class="slide slide-4">
+    <header>
+      <h4>Всё в ажуре</h4>
+    </header>
+    <p>
+      Облачная платформа от Microsoft обеспечивает высокую надёжность (100% аптайм),
+      низкое время отклика (около полусекунды) и позволяет производить сложные вычисления,
+      такие как составление полного списка студентов в порядке процента их посещаемости за всё время.
+    </p>
+    <div class="next">
+      <i class="material-icons">navigate_next</i>
+    </div>
+  </section>
+
+  <img class="slide-5" src="{% static "imgs/css-3_official.svg" %}" alt="CSS3" />
+  <section class="slide slide-5">
+    <header>
+      <h4>Future is now</h4>
+    </header>
+    <p>
+      Самые современные стандарты HTML 5 и CSS 3 позволяют использовать Web Storage,
+      семантическую вёрстку, удобную для парсинга, новые элементы форм, линейные градиенты,
+      скругление углов, анимации и встраивать векторную графику. Благодаря свойству will-change
+      современные браузеры заранее выносят трансформируемые блоки на отдельные слои рендеринга
+      и используют аппаратное ускорение, благодаря этому значительно повышается количество кадров
+      в секунду и анимации выглядят плавно.
+      <small>
+        <a class="modal-trigger how-to-up-perf" href="#how-to-up-perf">
+          (Узнайте как повысить производительность в свём браузере)
+        </a>
+      </small>
+    </p>
+    <div class="next">
+      <i class="material-icons">navigate_next</i>
+    </div>
+  </section>
+
+  <section class="slide slide-6">
+    <header>
+      <h4>За рамки браузера</h4>
+    </header>
+    <p>
+      Добавьте значок веб-приложения на рабочий стол и при запуске оно будет работать почти как нативное.
+    </p>
+    <div class="next">
+      <i class="material-icons">navigate_next</i>
+    </div>
+  </section>
+
+  <img class="slide-7" src="{% static "imgs/github-octocat.svg" %}" alt="Github" />
+  <section class="slide slide-7">
+    <header>
+      <h4>Тако нэко (октокот)</h4>
+    </header>
+    <section class="content">
+      <p>
+        Множество ошибок, отсутствие кроссбраузерности - код ужасен,
+        но постоянно улучшается. Хотите помочь?
+        <a target="_blank" class="fork" href="#!">Fork me on GitHub</a>.
+      </p>
+      {% if plans %}
+        <h5>Планируется сделать:</h5>
+        <ul class="plans">
+          {% for plan in plans %}
+            <li>{{plan.description}}</li>
+          {% endfor %}
+        </ul>
+      {% endif %}
+      <h5>Последние изменения</h5>
+      <table class="last-changes">
+        <thead>
+          <th>
+            Время
+          </th>
+          <th>
+            Хэш коммита
+          </th>
+          <th>
+            Описание
+          </th>
+        </thead>
+        <tbody>
+          {% for change in lastChanges %}
+            <tr>
+              <td>
+                <time datetime="">{{change.changeDate}}</time>
+              </td>
+              <td>
+                {{change.commit}}
+              </td>
+              <td>
+                {{change.description}}
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </section>
+  </section>
+
+</main>
+
+<!--MODALS-->
+<div id="how-to-up-perf" class="modal">
+  <div class="modal-content">
+    <h4>Повышение производительности</h4>
+    <img style="width: 40%;float: left;margin: 0 40px 20px 0;" src="{% static "imgs/perf.png" %}" alt="perfomance" />
+    <ul>
+      <li>Используйте современный браузер на движке Blink или Webkit (или Gecko), такой как Chrome,
+      Chromium, Firefox, Opera, Vivaldi или Safari</li>
+      <li>Убедитесь, что используете самую свежую версию браузера. Проверить наличие обновлений можно в настройках</li>
+      <li>Перейдите на страницу дополнительных (экспериментальных) настроек. Для Chrome это chrome://flags.
+      На этой странице включите аппаратную растеризацию и экспериментальные функции веб-платформы,
+      число потоков растрового изображения установите на 4,
+      а для того, чтобы блоки с эффектом параллакса не "дёргались", по желанию включите плавную прокрутку (в Firefox включена по умолчанию).
+      Экспериментальная функция "растеризация без копирования" очень сильно повышает производительность, но включайте ее на свой страх и риск.
+      Также по желанию можете включить наложение полос прокрутки и Material Design.
+      </li>
+    </ul>
+  </div>
+  <div class="modal-footer">
+    <a href="#!" class=" modal-action modal-close waves-effect waves-green btn-flat">OK</a>
+  </div>
+</div>
+
+<script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/js/materialize.min.js"></script>
+<script type="text/javascript" src="{% static "js/outdatedbrowser.min.js" %}" charset="utf-8"></script>
+
+<script src="{% static "js/classie.js" %}"></script>
+<script src="{% static "js/mockup.js" %}"></script>
+
+<script type="text/javascript" src="{% static "js/svg.min.js" %}"></script>
+
+<script src="{% static "js/index.js" %}" type="text/javascript"></script>
 </body>
 </html>

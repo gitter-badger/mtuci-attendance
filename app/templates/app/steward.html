@@ -1,5 +1,6 @@
 {% extends "app/template.html" %}
 {% load staticfiles %}
+{% load get_settings %}
 {% block title %}Интерфейс старосты{% endblock title %}
 {% block opengraph %}
   <meta property="og:title" content="Посещаемость МТУСИ - Страница старосты">
@@ -20,7 +21,7 @@
   <meta name="twitter:description" content="Приложение для контроля за посещаемостью студентов МТУСИ">
   <meta name="twitter:creator" content="МТУСИ">
   <meta name="twitter:image:src" content="{% static "imgs/og_placeholder.jpg" %}">
-  <meta name="twitter:domain" content="{% url "index" %}">
+  <meta name="twitter:domain" content="{% get_settings "SITE_URL" %}">
 
   <meta name="title" content="Посещаемость МТУСИ">
   <link rel="image_src" href="{% static "imgs/og_placeholder.jpg" %}">

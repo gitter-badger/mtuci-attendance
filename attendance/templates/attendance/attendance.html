@@ -6,8 +6,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <!--[if IE]><script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
   <title>Посещаемость | МТУСИ</title>
-
+  {% load get_settings %}
   {% load staticfiles %}
+  <base href="{% get_settings "SITE_URL" %}" target="_blank">
 
   <meta name="description" content="Страница статистики посещаемости студентов МТУСИ">
   <meta name="keywords" content="МТУСИ, посещаемость, статистика, главная, Московский, технический, университет, связи, информатики">
@@ -26,9 +27,9 @@
   <meta name="msapplication-tooltip" content="Приложение по контролю за посещаемостью МТУСИ">
   <meta name="msapplication-navbutton-color" content="#03a9f4">
 
-  <link rel="index" title="Посещаемость МТУСИ" href="{% url "index" %}">
-  <meta name="application-url" content="{% url "index" %}">
-  <meta name="msapplication-starturl" content="{% url "index" %}">
+  <link rel="index" title="Посещаемость МТУСИ" href="{% get_settings "SITE_URL" %}">
+  <meta name="application-url" content="{% get_settings "SITE_URL" %}">
+  <meta name="msapplication-starturl" content="{% get_settings "SITE_URL" %}">
 
   <meta name="geo.position" content="55.784365;37.482593">
   <meta name="ICBM" content="55.784365, 37.482593">
@@ -67,7 +68,7 @@
   <meta name="twitter:description" content="Приложения для контроля за посещаемостью студентов МТУСИ">
   <meta name="twitter:creator" content="МТУСИ">
   <meta name="twitter:image:src" content="{% static "imgs/og_placeholder.jpg" %}">
-  <meta name="twitter:domain" content="{% url "index" %}">
+  <meta name="twitter:domain" content="{% get_settings "SITE_URL" %}">
 
   <meta name="title" content="Посещаемость МТУСИ">
   <link rel="image_src" href="{% static "imgs/og_placeholder.jpg" %}">

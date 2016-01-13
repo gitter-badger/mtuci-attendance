@@ -2,6 +2,7 @@
 Django settings for DjangoWebProject project.
 """
 
+from DjangoWebProject import private
 from os import path
 PROJECT_ROOT = path.dirname(path.abspath(path.dirname(__file__)))
 
@@ -12,6 +13,8 @@ ALLOWED_HOSTS = (
     'mtuci.azurewebsites.net'
 )
 
+SITE_URL = 'http://mtuci.azurewebsites.net/'
+
 ADMINS = (
     # ('Your Name', 'your_email@example.com'),
     ('Igor Morozov', 'gogamwar@gmail.com'),
@@ -19,29 +22,7 @@ ADMINS = (
 
 MANAGERS = ADMINS
 
-DATABASES = {
-
-    # sqlite3
-    #'default': {
-    #    'ENGINE': 'django.db.backends.sqlite3',
-    #    'NAME': path.join(PROJECT_ROOT, 'db1.sqlite3'),
-    #    'USER': '',
-    #    'PASSWORD': '',
-    #    'HOST': '',
-    #    'PORT': '',
-    #}
-
-    # mtuci in Azure
-    # Database=mtuci;Data Source=eu-cdbr-azure-west-c.cloudapp.net;User Id=bb2900572a202f;Password=1577d104
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'mtuci',
-        'USER': 'bb2900572a202f',
-        'PASSWORD': '1577d104',
-        'HOST': 'eu-cdbr-azure-west-c.cloudapp.net',
-        'PORT': '',
-    }
-}
+DATABASES = private.DATABASES
 
 LOGIN_URL = '/login/'
 
@@ -106,7 +87,7 @@ STATICFILES_FINDERS = (
 )
 
 # Make this unique, and don't share it with anybody.
-SECRET_KEY = 'n(bd1f1c%e8=_xad02x5qtfn%wgwpi492e$8_erx+d)!tpeoim'
+SECRET_KEY = private.SECRET_KEY
 
 # List of callables that know how to import templates from various sources.
 TEMPLATE_LOADERS = (

@@ -5,7 +5,7 @@ from django.template import RequestContext
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
 from attendance.models import StudyWeek
-from app.models import LastChange
+from app.models import LastChange, Plan
 from django.core.cache import cache
 
 def error403(request):
@@ -83,6 +83,11 @@ def index(request):
         lastChanges = cache.get('lastChanges')
     else:
         lastChanges = LastChange.objects.all()[:5]
-        cache.set('lastChanges', lastChanges, 60*30)
-    context = {'lastChanges': lastChanges}
+        cache.set('lastChanges', lastChanges, 60*10)
+    if cache.get('plans'):
+        plans = cache.get('plans')
+    else:
+        plans = Plan.objects.filter(is_complited=False)
+        cache.set('plans', plans, 60*30)
+    context = {'lastChanges': lastChanges, 'plans': plans}
     return render(request, 'app/index.html', context)
