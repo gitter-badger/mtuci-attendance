@@ -597,7 +597,7 @@
           {% for change in lastChanges %}
             <tr>
               <td>
-                <time datetime="">{{change.changeDate}}</time>
+                <time datetime="{{change.changeDate|date:'Y-m-d H:i'}}">{{change.changeDate}}</time>
               </td>
               <td>
                 {{change.commit}}
