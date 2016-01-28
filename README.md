@@ -1,4 +1,6 @@
 # Посещаемость МТУСИ
+
+[![Join the chat at https://gitter.im/gogamwar/mtuci-attendance](https://badges.gitter.im/gogamwar/mtuci-attendance.svg)](https://gitter.im/gogamwar/mtuci-attendance?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 ![Страница посещаемости](http://mtuci.azurewebsites.net/static/imgs/Screenshot1.png "Посещаемость МТУСИ")
 [Главная страница](http://mtuci.azurewebsites.net/ "Главная страница")
 
